@@ -1,0 +1,12 @@
+/* Style for the "Personas" dropdown */
+.dropdown-menu.show[aria-labelledby="ngbDropdown-0"] { /* Targets "Personas" dropdown specifically */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.dropdown-menu.show.active[aria-labelledby="ngbDropdown-0"] { /* Targets "Personas" dropdown specifically */
+  transform: translateY(0);
+}

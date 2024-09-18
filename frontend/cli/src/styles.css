@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+@import "font-awesome/css/font-awesome.css";
+body{
+    margin: 30px;
+    padding: 20px;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #666;
+}
+
+.up{
+    padding: 10px;
+    margin: auto;
+    width: 90%;
+    border: 3px solid #222 ;
+}
+    
+select{
+    margin: 0px 10px;
+}
+
+option[value='personas/new'] {
+    text-decoration: none;
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
