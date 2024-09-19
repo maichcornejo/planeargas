@@ -52,7 +52,7 @@ def process_geotiff(file_path, output_file):
 file_path = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_raster/caneria.tif'
 
 # Ruta al archivo de salida
-output_file = '/home/meli/planeargas/PlaneArGas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
+output_file = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
 
 # Procesar el archivo GeoTIFF
 process_geotiff(file_path, output_file)
