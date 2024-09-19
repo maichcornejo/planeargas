@@ -26,6 +26,7 @@ def process_geotiff(file_path, output_file):
     output_dir = os.path.dirname(output_file)
     os.makedirs(output_dir, exist_ok=True)  # Crea el directorio si no existe
 
+    escala = 250
     # Guardar las ubicaciones (coordenadas) y centroides en un archivo TXT
     with open(output_file, 'w') as f:
         for polygon in polygons:
@@ -33,8 +34,8 @@ def process_geotiff(file_path, output_file):
             centroid = polygon.centroid  # Calcular el centroide
             f.write(f"Polígono:\n")
             for coord in coords:
-                f.write(f"({coord[0]}, {coord[1]})\n")
-            f.write(f"Centroide: ({centroid.x}, {centroid.y})\n")
+                f.write(f"({coord[0]/escala}, {coord[1]/escala})\n")
+            f.write(f"Centroide: ({centroid.x/escala}, {centroid.y/escala})\n")
             f.write("\n")  # Separar polígonos con una línea en blanco
 
 # Ruta al archivo de entrada y salida

@@ -8,12 +8,12 @@ def abrir_imagen_pillow(ruta_archivo):
     imagen.show()
 
 # Ejemplo de uso
-ruta_imagen_original = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_entrada/planta_13.png'
-ruta_caneria = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_salida/caneria.png'
-ruta_artefactos = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_salida/artefactos.png'
-ruta_paredes = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_salida/paredes.png'
-ruta_subidas_bajadas = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_salida/subidas_bajadas.png'
-ruta_ventilaciones = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_salida/ventilaciones.png'
+ruta_imagen_original = '/home/meli/planeargas/backend/src/imagen_entrada/planta_1.png'
+ruta_caneria = '/home/meli/planeargas/backend/src/imagen_salida/caneria.png'
+ruta_artefactos = '/home/meli/planeargas/backend/src/imagen_salida/artefactos.png'
+ruta_paredes = '/home/meli/planeargas/backend/src/imagen_salida/paredes.png'
+ruta_subidas_bajadas = '/home/meli/planeargas/backend/src/imagen_salida/subidas_bajadas.png'
+ruta_ventilaciones = '/home/meli/planeargas/backend/src/imagen_salida/ventilaciones.png'
 abrir_imagen_pillow(ruta_caneria)
 abrir_imagen_pillow(ruta_artefactos)
 abrir_imagen_pillow(ruta_paredes)

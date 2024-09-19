@@ -3,8 +3,8 @@ import numpy as np
 import os
 
 # Ruta de la imagen de entrada y las imágenes de salida
-input_image_path = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_entrada/planta_13.png'
-output_directory = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_salida/'
+input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_1.png'
+output_directory = '/home/meli/planeargas/backend/src/imagen_salida/'
 
 # Verificar si la imagen de entrada es válida
 image = cv2.imread(input_image_path)

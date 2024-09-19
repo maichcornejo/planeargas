@@ -98,8 +98,8 @@ def optimizar_caneria(ruta_entrada, ruta_salida):
 
 
 # Ruta de los archivos
-ruta_entrada = "/home/meli/planeargas/PlaneArGas/backend/src/txt_resultantes/resultados_caneria_latex.txt"
-ruta_salida = "/home/meli/planeargas/PlaneArGas/backend/src/txt_resultantes/caneria_optimizada.txt"
+ruta_entrada = "/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt"
+ruta_salida = "/home/meli/planeargas/backend/src/txt_resultantes/caneria_optimizada.txt"
 
 # Ejecutar el proceso de optimización con proyección
 optimizar_caneria(ruta_entrada, ruta_salida)

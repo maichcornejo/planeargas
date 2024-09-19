@@ -49,7 +49,7 @@ def process_geotiff(file_path, output_file):
                     f.write(f'\\draw [color=red] ({x1:.2f}, {y1:.2f}) -- ({x2:.2f}, {y2:.2f});\n')
 
 # Ruta al archivo GeoTIFF
-file_path = '/home/meli/planeargas/PlaneArGas/backend/src/imagen_raster/caneria.tif'
+file_path = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
 
 # Ruta al archivo de salida
 output_file = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
