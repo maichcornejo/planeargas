@@ -1,12 +1,3 @@
-#!/bin/sh
-
-# abort install if any errors occur and enable tracing
-set -o errexit
-set -o xtrace
-
-sudo sed -i  's/md5/trust/' /etc/postgresql/14/main/pg_hba.conf
-sudo sed -i  's/peer/trust/' /etc/postgresql/14/main/pg_hba.conf
-
-sudo service postgresql restart
-psql -c "create database autotest" -U postgres
-psql -c "create extension postgis" -d autotest -U postgres
+version https://git-lfs.github.com/spec/v1
+oid sha256:9e475bf3f4b5dae2813d00085833a8fa48913949e71eee5d2acd8556c011ce59
+size 364

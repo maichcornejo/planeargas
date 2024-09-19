@@ -1,11 +1,3 @@
-#!/bin/sh
-
-BINDING='csharp'
-SWIG='swig -DSWIG2_CSHARP'
-SWIGARGS='-Wall -I../include -I../include/csharp -I../..'
-
-$SWIG -$BINDING -namespace OSGeo.GDAL -dllimport gdalconst_wrap -o const/gdalconst_wrap.c ../include/gdalconst.i
-$SWIG $SWIGARGS -c++ -$BINDING -namespace OSGeo.GDAL -dllimport gdal_wrap -o gdal/gdal_wrap.cpp ../include/gdal.i
-$SWIG $SWIGARGS -c++ -$BINDING -namespace OSGeo.OSR -dllimport osr_wrap -o osr/osr_wrap.cpp ../include/osr.i
-$SWIG $SWIGARGS -c++ -$BINDING -namespace OSGeo.OGR -dllimport osr_wrap -o ogr/osr_wrap.cpp ../include/osr.i
-$SWIG $SWIGARGS -c++ -$BINDING -namespace OSGeo.OGR -dllimport ogr_wrap -o ogr/ogr_wrap.cpp ../include/ogr.i
+version https://git-lfs.github.com/spec/v1
+oid sha256:0ed84d0a1d7147bc5c1a7d71e2b6a141fb6c9189d8b7d5c0228bd3c268ab0520
+size 668

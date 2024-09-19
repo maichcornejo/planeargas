@@ -1,20 +1,3 @@
-#!/bin/sh
-set -eu
-
-if test "${TARGET_ARCH:-}" != ""; then
-  if test "${TARGET_ARCH}" = "arm64"; then
-      export GCC_ARCH=aarch64
-  else
-      echo "Unhandled architecture: ${TARGET_ARCH}"
-      exit 0
-  fi
-  export APT_ARCH_SUFFIX=":${TARGET_ARCH}"
-  export CC=${GCC_ARCH}-linux-gnu-gcc-13
-  export CXX=${GCC_ARCH}-linux-gnu-g++-13
-  export WITH_HOST="--host=${GCC_ARCH}-linux-gnu"
-else
-  export APT_ARCH_SUFFIX=""
-  export WITH_HOST=""
-  GCC_ARCH="$(uname -m)"
-  export GCC_ARCH
-fi
+version https://git-lfs.github.com/spec/v1
+oid sha256:f6a941686f30cc4387791a324f6480b68d270462cba14f1fb143c1016f3096db
+size 485

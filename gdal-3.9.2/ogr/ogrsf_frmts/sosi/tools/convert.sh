@@ -1,11 +1,3 @@
-#!/bin/bash
-
-# requires xsltproc - if you are not on linux or prefer to use another XSLT processor, follow the human-readable instructions
-
-cp ../ogrsosidatatypes.h ../ogrsosidatatypes.h.bak 2>/dev/null || true                     # make a backup of the old header
-
-xsltproc basicelements.xslt Elementdefinisjoner.xml | tail -n +2  > ../ogrsosidatatypes.h  # apply basicelements.xslt, skip XML header
-head -n -1 Gruppeelement_sammensetning.xml > both.xml                                      # concatenate both input files into a single file,
-tail -n +3 Elementdefinisjoner.xml >> both.xml                                             #   moving all elements into the <dataroot> node
-xsltproc groupelements.xslt both.xml | tail -n +2 >> ../ogrsosidatatypes.h                 # apply groupelements.xslt, skip XML header
-rm both.xml                                                                                #   and attach to ogrsosidatatypes.h
+version https://git-lfs.github.com/spec/v1
+oid sha256:67181095fa7f109c8cd3be7e0bdd2a46eea8185a20b2260bac94b14d7c6e1551
+size 946

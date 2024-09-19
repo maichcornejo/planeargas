@@ -1,11 +1,3 @@
-#!/bin/sh
-
-SRCLIB=$1
-DSTLIB=$2
-
-OBJ=$(ar t $SRCLIB | grep -v SORTED | grep -v SYMDEF)
-
-ar x $SRCLIB $OBJ
-ar r $DSTLIB $OBJ
-rm $OBJ
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:207585347a3eb825f10073ca8992f33f69368ebdda902b21085887ce4a5c8304
+size 132
