@@ -3,3 +3,4 @@ docker-compose.yml
 lpl
 .venv/
 gdal-3.9.2/
+gdal-3.9.2

@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 .venv/
 gdal-3.9.2/
+gdal-3.9.2
 
 ### STS ###
 .apt_generated
