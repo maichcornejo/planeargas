@@ -1,6 +1,13 @@
 .vscode
 docker-compose.yml
 lpl
+<<<<<<< HEAD
 .venv/
 gdal-3.9.2/
 gdal-3.9.2
+=======
+# .venv/
+# .venv
+# gdal-3.9.2/
+# gdal-3.9.2
+>>>>>>> 1d04b9643 (lo que sea)
