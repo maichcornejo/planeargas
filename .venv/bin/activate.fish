@@ -33,7 +33,11 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
 set -gx VIRTUAL_ENV "/home/Maia/planeargas/.venv"
+=======
+set -gx VIRTUAL_ENV "/home/meli/planeargas/.venv"
+>>>>>>> origin/meli
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
