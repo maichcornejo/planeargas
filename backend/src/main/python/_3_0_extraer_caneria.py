@@ -4,8 +4,9 @@ import numpy as np
 from shapely.geometry import LineString, MultiLineString
 from shapely.ops import unary_union
 from shapely.affinity import affine_transform
+import os
 
-def process_geotiff(file_path, output_file):
+def process_geotiff_caneria(file_path, output_file):
     # Cargar el archivo GeoTIFF
     with rasterio.open(file_path) as src:
         # Leer la imagen y la transformación affine
@@ -48,6 +49,7 @@ def process_geotiff(file_path, output_file):
                     x2, y2 = coords[i + 1]
                     f.write(f'\\draw [color=red] ({x1:.2f}, {y1:.2f}) -- ({x2:.2f}, {y2:.2f});\n')
 
+
 # Ruta al archivo GeoTIFF
 file_path = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
 
@@ -55,4 +57,4 @@ file_path = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
 output_file = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
 
 # Procesar el archivo GeoTIFF
-process_geotiff(file_path, output_file)
+process_geotiff_caneria(file_path, output_file)

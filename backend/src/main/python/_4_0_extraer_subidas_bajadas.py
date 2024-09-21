@@ -4,7 +4,7 @@ import numpy as np
 from rasterio.features import shapes
 from shapely.geometry import shape
 
-def process_geotiff(file_path, output_file):
+def process_geotiff_subidas(file_path, output_file):
     # Cargar el archivo GeoTIFF
     with rasterio.open(file_path) as src:
         # Leer la imagen y la transformación affine
@@ -43,5 +43,5 @@ input_file = '/home/meli/planeargas/backend/src/imagen_raster/subidas_bajadas.ti
 output_file = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt'
 
 # Llamar a la función
-process_geotiff(input_file, output_file)
+process_geotiff_subidas(input_file, output_file)
 

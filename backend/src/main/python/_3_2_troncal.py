@@ -1,5 +1,6 @@
 import re
 import math
+import os
 
 # Leer los vectores del archivo de entrada
 def leer_vectores(ruta_archivo):
@@ -14,6 +15,7 @@ def leer_vectores(ruta_archivo):
     return vectores
 
 def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo_y):
+    distancia = distancia * 2
     angulo_radianes = math.radians(angulo_grados)
     longitud = (abs(distancia * math.cos(angulo_radianes)))*negativo_x + x_real
     altura = (abs(distancia * math.sin(angulo_radianes)))*negativo_y + y_real
@@ -61,7 +63,7 @@ def isometrica(vectores):
     for vector_siguiente in vectores[inicio_bucle:]:
         (vs_x1, vs_y1), (vs_x2, vs_y2) = vector_siguiente
         (pa_x, pa_y) = punto_actual
-        distancia = min(10, max(1, abs(vs_y2 - vs_y1 if vs_x1 == vs_x2 else vs_x2 - vs_x1)))
+        distancia = min(20, max(1, abs(vs_y2 - vs_y1 if vs_x1 == vs_x2 else vs_x2 - vs_x1)))
         if vs_x1 == vs_x2:
             angulo = 30
             if ((vs_y1 + vs_y2) / 2) > pa_y:
@@ -74,10 +76,10 @@ def isometrica(vectores):
             angulo = 150
             if ((vs_x1 + vs_x2) / 2) > pa_x:
                 # izquierda
-                x_real, y_real, linea = dibujar_linea(x_real, y_real, distancia, angulo, -1, 1)
+                x_real, y_real, linea = dibujar_linea(x_real, y_real, distancia, angulo, 1, -1)
             else:
                 # derecha
-                x_real, y_real, linea = dibujar_linea(x_real, y_real, distancia, angulo, 1, -1)
+                x_real, y_real, linea = dibujar_linea(x_real, y_real, distancia, angulo, -1, 1)
         
         resultados.append(linea)
         distancia_1 = math.sqrt((pa_x - vs_x1)**2 + (pa_y - vs_y1)**2)
@@ -92,7 +94,7 @@ def isometrica(vectores):
 
 
     
-def optimizar_caneria(ruta_entrada, ruta_salida):
+def troncal_caneria(ruta_entrada, ruta_salida):
     vectores = leer_vectores(ruta_entrada)
     resultados = isometrica(vectores)
     
@@ -105,4 +107,4 @@ ruta_entrada = "/home/meli/planeargas/backend/src/txt_resultantes/caneria_optimi
 ruta_salida = "/home/meli/planeargas/backend/src/txt_resultantes/troncal_latex.txt"
 
 # Ejecutar el proceso de optimización con proyección
-optimizar_caneria(ruta_entrada, ruta_salida)
+troncal_caneria(ruta_entrada, ruta_salida)
