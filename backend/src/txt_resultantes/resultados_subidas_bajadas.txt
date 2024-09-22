@@ -1,4 +1,15 @@
+<<<<<<< HEAD
 \fill [color=blue] (1.79, 14.21) circle (1pt);
 \fill [color=blue] (1.91, 3.10) circle (1pt);
 \fill [color=blue] (4.90, 1.53) circle (1pt);
 \fill [color=blue] (4.30, 0.76) circle (1pt);
+=======
+(7.55, -1.626)
+(7.414, -1.914)
+(6.99, -1.918)
+(7.538, -1.966)
+(9.142, -1.966)
+(9.474, -2.722)
+(5.13, -7.666)
+(7.680001305963401, -4.3200260126882934)
+>>>>>>> ca3475abb (cambie imagenes de entrada)
