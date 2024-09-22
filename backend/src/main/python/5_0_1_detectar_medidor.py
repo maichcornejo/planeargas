@@ -1,78 +1,65 @@
 import cv2
 import numpy as np
-from PIL import Image, ImageDraw
+import os
 
-# Cargar imagen del plano en formato PNG
-imagen = cv2.imread('/home/Maia/planeargas/backend/src/imagen_salida/paredes.png')
+def encontrar_medidor_por_ubicacion_fija(image, ancho_medidor=0.40, alto_medidor=0.30, resolucion=15.65, tolerancia=20):
+    # Proporción en píxeles para la escala del plano
+    height, width, _ = image.shape
+    metros_a_pixeles = width / resolucion  # Resolución horizontal (metros en la parte inferior)
 
-# Convertir la imagen a escala de grises
-imagen_gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
+    # Dimensiones del medidor en píxeles
+    ancho_medidor_px = int(ancho_medidor * metros_a_pixeles)
+    alto_medidor_px = int(alto_medidor * metros_a_pixeles)
 
-# Aplicar un umbral para destacar el medidor (rectángulo)
-_, umbral = cv2.threshold(imagen_gris, 200, 255, cv2.THRESH_BINARY_INV)
+    # Limitar la búsqueda a la parte más inferior del plano (últimos 10% de la imagen)
+    y_inferior = int(height * 0.90)
+    sub_image = image[y_inferior:, :]
 
-# Encontrar contornos en la imagen
-contornos, _ = cv2.findContours(umbral, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # Convertir la imagen a escala de grises y aplicar detección de bordes
+    gray = cv2.cvtColor(sub_image, cv2.COLOR_BGR2GRAY)
+    edged = cv2.Canny(gray, 50, 150)
 
-# Variables para almacenar la coordenada del medidor
-coordenadas_medidor = None
-dimension_medidor_px = None
+    # Encontrar contornos
+    contours, _ = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-# Definir dimensiones del medidor en metros y el factor de conversión a píxeles (asumido)
-dim_medidor_metros = (0.40, 0.30)
-escala = 100  # Número de píxeles por metro (ajustar según escala del plano)
+    # Buscar el primer rectángulo desde la esquina inferior izquierda que coincida con las dimensiones del medidor
+    for contour in contours:
+        x, y, w, h = cv2.boundingRect(contour)
+        # Comprobamos si las dimensiones coinciden con las del medidor (aumentamos la tolerancia)
+        if (ancho_medidor_px - tolerancia) <= w <= (ancho_medidor_px + tolerancia) and (alto_medidor_px - tolerancia) <= h <= (alto_medidor_px + tolerancia):
+            # Coordenada absoluta en la imagen completa
+            x_abs = x
+            y_abs = y + y_inferior
 
-# Buscar el rectángulo que corresponda al medidor
-for contorno in contornos:
-    x, y, w, h = cv2.boundingRect(contorno)
-    width_m, height_m = w / escala, h / escala  # Convertir de píxeles a metros
+            # Crear una nueva imagen que contenga solo el medidor
+            medidor = image[y_abs:y_abs+h, x_abs:x_abs+w]
+            
+            # Crear una imagen en blanco (transparente) para el fondo
+            medidor_sin_fondo = np.zeros_like(image)
+            medidor_sin_fondo[y_abs:y_abs+h, x_abs:x_abs+w] = image[y_abs:y_abs+h, x_abs:x_abs+w]
+
+            # Guardar la imagen del medidor sin fondo
+            cv2.imwrite('/home/Maia/planeargas/backend/src/detecciones/medidor_sin_fondo.png', medidor_sin_fondo)
+
+            # Retornar las coordenadas y dimensiones del medidor
+            return (x_abs, y_abs, w, h)
     
-    if abs(width_m - dim_medidor_metros[0]) < 0.05 and abs(height_m - dim_medidor_metros[1]) < 0.05:
-        coordenadas_medidor = (x, y)
-        dimension_medidor_px = (w, h)
-        break
+    return None  # Si no se encuentra el medidor
 
-if coordenadas_medidor:
-    x_medidor, y_medidor = coordenadas_medidor
-    print(f"Medidor encontrado en coordenadas (x: {x_medidor}, y: {y_medidor}) en píxeles.")
+# Verificar si la imagen se carga correctamente
+image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
+if os.path.exists(image_path):
+    image = cv2.imread(image_path)
+    if image is None:
+        print(f"Error: No se pudo cargar la imagen en {image_path}. Verifica el archivo y la ruta.")
+    else:
+        # Ejecutar la función para encontrar el medidor por ubicación fija
+        medidor_coordenadas = encontrar_medidor_por_ubicacion_fija(image)
 
-    # Guardar las coordenadas en un archivo .txt
-    with open("coordenadas_medidor.txt", "w") as archivo:
-        archivo.write(f"Medidor de gas ubicado en:\n")
-        archivo.write(f"Coordenadas (en píxeles): {x_medidor}, {y_medidor}\n")
-        archivo.write(f"Dimensiones (en píxeles): {dimension_medidor_px[0]} x {dimension_medidor_px[1]}")
-
-    # Convertir la imagen de OpenCV (BGR) a formato RGB para Pillow
-    imagen_rgb = cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB)
-    imagen_pillow = Image.fromarray(imagen_rgb)
-
-    # Crear un objeto para dibujar sobre la imagen
-    draw = ImageDraw.Draw(imagen_pillow)
-
-    # Dibujar un rectángulo donde está el medidor
-    draw.rectangle([x_medidor, y_medidor, x_medidor + dimension_medidor_px[0], y_medidor + dimension_medidor_px[1]], outline="red", width=3)
-
-    # Guardar la imagen con el rectángulo del medidor marcado
-    imagen_pillow.save("plano_con_medidor.png")
-    print("Imagen guardada como 'plano_con_medidor.png'.")
-    
-    # Generar archivo LaTeX para visualización gráfica
-    with open("ubicacion_medidor.tex", "w") as archivo_latex:
-        archivo_latex.write(r"\documentclass{article}" + "\n")
-        archivo_latex.write(r"\usepackage{tikz}" + "\n")
-        archivo_latex.write(r"\begin{document}" + "\n")
-        archivo_latex.write(r"\begin{tikzpicture}" + "\n")
-        
-        # Dibujar el plano de fondo (esquemático)
-        archivo_latex.write(f"\\draw[step=1cm,gray,very thin] (0,0) grid ({imagen.shape[1]/escala}m,{imagen.shape[0]/escala}m);\n")
-        
-        # Dibujar el medidor como un rectángulo
-        archivo_latex.write(f"\\filldraw[fill=blue!20] ({x_medidor/escala},{y_medidor/escala}) rectangle "
-                            f"({(x_medidor + dimension_medidor_px[0])/escala},{(y_medidor + dimension_medidor_px[1])/escala});\n")
-        
-        archivo_latex.write(r"\end{tikzpicture}" + "\n")
-        archivo_latex.write(r"\end{document}" + "\n")
-
-    print("Archivos .txt y .tex generados correctamente.")
+        if medidor_coordenadas:
+            x_abs, y_abs, w, h = medidor_coordenadas
+            print(f"Medidor encontrado en las coordenadas (x, y): ({x_abs}, {y_abs}) con ancho: {w} y alto: {h} píxeles")
+        else:
+            print("Medidor no encontrado")
 else:
-    print("Medidor no encontrado en la imagen.")
+    print(f"Error: La ruta {image_path} no existe. Verifica si el archivo está en la ubicación correcta.")
