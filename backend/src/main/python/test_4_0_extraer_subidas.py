@@ -11,10 +11,17 @@ def test_process_geotiff_puntos():
     process_geotiff_puntos(input_file_subidas, output_file_subidas, color)
 
             # Contenido esperado del archivo generado
+<<<<<<< HEAD
     contenido_esperado = """\\fill [color=blue] (1.79, 14.21) circle (1pt);
 \\fill [color=blue] (1.91, 3.10) circle (1pt);
 \\fill [color=blue] (4.90, 1.53) circle (1pt);
 \\fill [color=blue] (4.30, 0.76) circle (1pt);
+=======
+    contenido_esperado = """(4.298, -0.754)
+(1.914, -3.09)
+(1.798, -14.198)
+(4.320009526743253, -7.680019730334017)
+>>>>>>> aa5cfefab (cambie las imagenes de entrada)
 """
 
     # Leer el archivo generado

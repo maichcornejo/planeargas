@@ -13,6 +13,7 @@ def test_troncal():
     troncal_caneria(ruta_entrada, ruta_salida, tipo_caneria)
 
         # Contenido esperado del archivo generado
+<<<<<<< HEAD
     contenido_esperado = """\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, .5) -- (.5, -2);\\node [rotate = 30] at (0.2, 0.5) {0.15};\\node [rotate = 90] at (0.3, -1.0) {0.90};
 \\node [rotate = 30] at (8.6, 2.9) {23.45};
 \\draw [color=red] (0.5, -2.0) -- (16.7, 7.4);
@@ -30,6 +31,14 @@ def test_troncal():
 \\draw [color=red] (28.2, 9.0) -- (27.2, 9.6);
 
 """
+=======
+    contenido_esperado = """\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, .5) -- (.5, -2);
+\\draw [color=red] (0.5, -2.0) -- (16.7, 7.4);
+\\draw [color=red] (16.7, 7.4) -- (21.1, 4.9);
+\\draw [color=red] (21.1, 4.9) -- (28.2, 9.0);
+\\draw [color=red] (28.2, 9.0) -- (26.5, 10.0);
+\\draw [color=red] (26.5, 10.0) -- (28.2, 9.0);"""
+>>>>>>> aa5cfefab (cambie las imagenes de entrada)
 
     # Leer el archivo generado
     with open(ruta_salida, 'r') as archivo_salida:

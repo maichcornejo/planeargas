@@ -7,7 +7,7 @@ def abrir_imagen_pillow(ruta_archivo):
     # Mostrar la imagen
     imagen.show()
 
-ruta_imagen_original = '/home/meli/planeargas/backend/src/imagen_entrada/planta_3.png'
+ruta_imagen_original = '/home/meli/planeargas/backend/src/imagen_entrada/planta_1.png'
 ruta_caneria = '/home/meli/planeargas/backend/src/imagen_salida/caneria.png'
 ruta_artefactos = '/home/meli/planeargas/backend/src/imagen_salida/artefactos.png'
 ruta_paredes = '/home/meli/planeargas/backend/src/imagen_salida/paredes.png'
