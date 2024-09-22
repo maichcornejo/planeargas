@@ -3,19 +3,12 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-<<<<<<< HEAD
 .venv/
 gdal-3.9.2/
 gdal-3.9.2
+__pycache__/
+*.pyc
 
-=======
-# .venv/
-# .venv
-# gdal-3.9.2/
-# gdal-3.9.2
-# venv/
-# venv
->>>>>>> 1d04b9643 (lo que sea)
 ### STS ###
 .apt_generated
 .classpath

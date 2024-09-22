@@ -35,50 +35,18 @@ def process_geotiff_puntos(file_path, output_file, color):
     # Encontrar los contornos de los puntos
     contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     escala = 250
-    puntos = []
-    radio_cercania = .1  # Radio de cercanía para ignorar centroides cercanos
-    centroides_guardados = []  # Lista para almacenar centroides guardados
-
-    # Guardar los centroides en un archivo TXT
+    # Guardar las ubicaciones (coordenadas) y centroides en un archivo TXT
     with open(output_file, 'w') as f:
         for polygon in polygons:
             centroid = polygon.centroid  # Calcular el centroide
-            centroide_actual = (centroid.x / escala, centroid.y / escala)
+            f.write(f"Polígono:\n")
+            for coord in coords:
+                f.write(f"({coord[0]/escala}, {coord[1]/escala})\n")
+            f.write(f"Centroide: ({centroid.x/escala}, {centroid.y/escala})\n")
+            f.write("\n")  # Separar polígonos con una línea en blanco
 
-            # Verificar si el centroide está cerca de otro ya guardado
-            ignorar = False
-            for centroide_guardado in centroides_guardados:
-                if distancia(centroide_actual, centroide_guardado) <= radio_cercania:
-                    ignorar = True
-                    break
-
-            if ignorar:
-                continue  # Ignorar este centroide si está cerca de otro
-
-            # Guardar el centroide en la lista de centroides guardados
-            centroides_guardados.append(centroide_actual)
-
-            # Escribir el centroide en el archivo
-            f.write(f"({centroid.x / escala}, {centroid.y / escala})\n")
-
-
-    # Extraer los puntos clave (centroides de los contornos)
-    for contour in contours:
-        M = cv2.moments(contour)
-        if M['m00'] != 0:
-            cx = M['m10'] / M['m00']  # Coordenada X del centroide
-            cy = M['m01'] / M['m00']  # Coordenada Y del centroide
-            puntos.append((cx / escala, cy / escala))
-
-    # Exportar puntos a archivo txt en formato LaTeX para TikZ
-    with open(output_file, 'w') as f:
-        for x, y in puntos:
-            f.write(f'\\fill [color={color}] ({x:.2f}, {y:.2f}) circle (1pt);\n')
-
-# Ruta al archivo GeoTIFF de puntos
-file_path = '/home/meli/planeargas/backend/src/imagen_raster/subidas_bajadas.tif'
-color = 'blue'
-# Ruta al archivo de salida
+# Ruta al archivo de entrada y salida
+input_file = '/home/meli/planeargas/backend/src/imagen_raster/subidas_bajadas.tif'
 output_file = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt'
 
 # Procesar el archivo GeoTIFF para extraer puntos
