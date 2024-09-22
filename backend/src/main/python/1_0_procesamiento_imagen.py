@@ -1,10 +1,51 @@
 import cv2
 import numpy as np
 import os
+import psycopg2
+
+def insertar_plano(nombre_plano):
+    """
+    Inserta un nuevo plano si no existe en la tabla planos.
+    """
+    conn = psycopg2.connect(
+        dbname="labprog", 
+        user="APP", 
+        password="APP", 
+        host="localhost",
+        port="28001"  # Agrega el puerto correcto
+    )
+    cur = conn.cursor()
+
+    # Verificar si el plano ya existe
+    cur.execute("SELECT id FROM planos WHERE nombre_plano = %s", (nombre_plano,))
+    result = cur.fetchone()
+
+    if result is None:
+        # Si no existe, insertarlo
+        cur.execute(
+            "INSERT INTO planos (nombre_plano) VALUES (%s) RETURNING id", (nombre_plano,)
+        )
+        plano_id = cur.fetchone()[0]
+    else:
+        # Si ya existe, obtener su ID
+        plano_id = result[0]
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return plano_id
 
 # Ruta de la imagen de entrada y las imágenes de salida
-input_image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
+input_image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_2.png'
 output_directory = '/home/Maia/planeargas/backend/src/imagen_salida/'
+
+# Nombre del plano (puedes extraerlo del nombre del archivo, por ejemplo)
+nombre_plano = os.path.basename(input_image_path).split('.')[0]
+
+# Guardar el plano en la base de datos
+plano_id = insertar_plano(nombre_plano)
+print(f"Plano '{nombre_plano}' guardado en la base de datos con ID {plano_id}.")
 
 # Verificar si la imagen de entrada es válida
 image = cv2.imread(input_image_path)
@@ -54,4 +95,3 @@ for label, mask in masks.items():
 
     # Guardar la imagen resultante
     cv2.imwrite(os.path.join(output_directory, f'{label}.png'), cv2.cvtColor(output_image, cv2.COLOR_RGB2BGR))
-
