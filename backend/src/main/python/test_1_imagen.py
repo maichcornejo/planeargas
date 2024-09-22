@@ -4,7 +4,7 @@ import os
 from _1_0_procesamiento_imagen import procesar_imagen
 
 def test_procesar_imagen():
-    input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_7.png'
+    input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_1.png'
     output_directory = '/home/meli/planeargas/backend/src/imagen_salida/'
     
     # Asegurarse de que la carpeta de salida esté limpia antes de la prueba

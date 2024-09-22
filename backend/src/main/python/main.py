@@ -12,11 +12,12 @@ rutas_imagenes = {
     'artefactos': '/home/meli/planeargas/backend/src/imagen_salida/artefactos.png',
     'paredes': '/home/meli/planeargas/backend/src/imagen_salida/paredes.png',
     'subidas_bajadas': '/home/meli/planeargas/backend/src/imagen_salida/subidas_bajadas.png',
-    'ventilaciones': '/home/meli/planeargas/backend/src/imagen_salida/ventilaciones.png'
+    'ventilaciones': '/home/meli/planeargas/backend/src/imagen_salida/ventilaciones.png',
+    'cotas': '/home/meli/planeargas/backend/src/imagen_salida/cotas.png'
 }
 
 output_directory_raster = '/home/meli/planeargas/backend/src/imagen_raster/'
-input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_8.png'
+input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_4.png'
 output_directory_png = '/home/meli/planeargas/backend/src/imagen_salida/'
 file_path_caneria_raster = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
 file_path_resultados_caneria = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'

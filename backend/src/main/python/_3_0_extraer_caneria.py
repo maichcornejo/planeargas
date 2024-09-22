@@ -22,14 +22,13 @@ def process_geotiff_caneria(file_path, output_file):
         raw_lines = []
         for line in lines:
             for x1, y1, x2, y2 in line:
-                # Dividir las coordenadas por 100 para ajustar la escala
+                # Dividir las coordenadas para ajustar la escala
                 start = (x1 / escala, y1 / escala)
                 end = (x2 / escala, y2 / escala)
                 line_string = LineString([start, end])
                 raw_lines.append(line_string)
 
         # Merge similar lines
-        #vectors = merge_similar_lines(raw_lines)
         vectors = raw_lines
 
     # Exportar a archivo txt con formato LaTeX

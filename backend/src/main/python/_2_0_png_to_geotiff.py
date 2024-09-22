@@ -72,7 +72,8 @@ if __name__ == "__main__":
     'artefactos': '/home/meli/planeargas/backend/src/imagen_salida/artefactos.png',
     'paredes': '/home/meli/planeargas/backend/src/imagen_salida/paredes.png',
     'subidas_bajadas': '/home/meli/planeargas/backend/src/imagen_salida/subidas_bajadas.png',
-    'ventilaciones': '/home/meli/planeargas/backend/src/imagen_salida/ventilaciones.png'
+    'ventilaciones': '/home/meli/planeargas/backend/src/imagen_salida/ventilaciones.png',
+    'cotas': '/home/meli/planeargas/backend/src/imagen_salida/cotas.png'
     }
 
     output_directory = '/home/meli/planeargas/backend/src/imagen_raster/'

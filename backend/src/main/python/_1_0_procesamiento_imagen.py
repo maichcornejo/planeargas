@@ -21,7 +21,8 @@ def procesar_imagen(input_image_path, output_directory):
         'subidas_bajadas': [255, 63, 0], # Rojo más claro
         'ventilaciones': [0, 255, 0],   # Verde
         'paredes': [0, 0, 0],      # Negro
-        'artefactos': [128, 128, 128]  # Gris
+        'artefactos': [128, 128, 128],  # Gris
+        'cotas': [  0,   0, 255] #Azul
     }
 
     # Crear máscaras para cada color
@@ -52,7 +53,7 @@ def procesar_imagen(input_image_path, output_directory):
 
 if __name__ == "__main__":
     # Rutas de entrada y salida
-    entrada_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_3.png'
+    entrada_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_1.png'
     salida_directory = '/home/meli/planeargas/backend/src/imagen_salida/'
     
     # Ejecutar el procesamiento

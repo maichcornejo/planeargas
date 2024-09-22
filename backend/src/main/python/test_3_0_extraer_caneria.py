@@ -12,19 +12,20 @@ process_geotiff_caneria(input_file_path, output_file_path)
 def test_process_geotiff_caneria():
 
     # Definir el contenido esperado en el archivo de salida
-    contenido_esperado = """\\draw [color=red] (5.45, 14.19) -- (5.45, 7.25);
-\\draw [color=red] (4.58, 7.25) -- (5.44, 7.25);
-\\draw [color=red] (4.41, 7.39) -- (4.58, 7.39);
-\\draw [color=red] (5.48, 14.55) -- (5.48, 14.36);
-\\draw [color=red] (5.08, 7.47) -- (5.19, 7.47);
-\\draw [color=red] (4.49, 7.47) -- (4.60, 7.47);
-\\draw [color=red] (5.17, 7.39) -- (5.31, 7.39);
-\\draw [color=red] (5.62, 14.36) -- (5.62, 14.21);
-\\draw [color=red] (5.45, 14.19) -- (5.60, 14.19);
-\\draw [color=red] (5.11, 7.39) -- (5.11, 7.30);
-\\draw [color=red] (4.58, 7.38) -- (4.58, 7.30);
-\\draw [color=red] (5.14, 7.46) -- (5.14, 7.39);
-\\draw [color=red] (4.54, 7.46) -- (4.54, 7.39);
+    contenido_esperado = """\\draw [color=red] (1.79, 14.26) -- (1.79, 4.88);
+\\draw [color=red] (4.30, 4.88) -- (4.30, 0.75);
+\\draw [color=red] (1.79, 4.88) -- (4.30, 4.88);
+\\draw [color=red] (1.90, 3.18) -- (4.30, 3.18);
+\\draw [color=red] (4.30, 1.57) -- (4.90, 1.57);
+\\draw [color=red] (1.90, 3.18) -- (1.90, 3.03);
+\\draw [color=red] (1.81, 3.09) -- (1.91, 3.09);
+\\draw [color=red] (1.70, 14.36) -- (1.70, 14.26);
+\\draw [color=red] (4.89, 1.52) -- (5.04, 1.52);
+\\draw [color=red] (4.21, 0.76) -- (4.30, 0.76);
+\\draw [color=red] (4.28, 0.82) -- (4.33, 0.82);
+\\draw [color=red] (4.87, 1.59) -- (4.94, 1.59);
+\\draw [color=red] (1.87, 3.03) -- (1.94, 3.03);
+\\draw [color=red] (4.90, 1.58) -- (4.90, 1.52);
 """
 
 

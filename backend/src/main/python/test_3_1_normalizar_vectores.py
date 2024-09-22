@@ -16,15 +16,12 @@ def test_optimizar_caneria():
         pytest.fail(f"Ocurrió un error durante el procesamiento: {e}")
 
     # Contenido esperado del archivo generado
-    contenido_esperado = """\\draw [color=red] (5.48, 14.55) -- (5.48, 14.36);
-\\draw [color=red] (5.62, 14.36) -- (5.62, 14.21);
-\\draw [color=red] (5.45, 14.19) -- (5.6, 14.19);
-\\draw [color=red] (5.45, 14.19) -- (5.45, 7.25);
-\\draw [color=red] (4.58, 7.25) -- (5.44, 7.25);
-\\draw [color=red] (4.58, 7.38) -- (4.58, 7.3);
-\\draw [color=red] (4.41, 7.39) -- (4.58, 7.39);
-\\draw [color=red] (4.49, 7.47) -- (4.6, 7.47);
-\\draw [color=red] (4.54, 7.46) -- (4.54, 7.39);"""
+    contenido_esperado = """\\draw [color=red] (1.7, 14.36) -- (1.7, 14.26);
+\\draw [color=red] (1.79, 14.26) -- (1.79, 4.88);
+\\draw [color=red] (1.79, 4.88) -- (4.3, 4.88);
+\\draw [color=red] (4.3, 4.88) -- (4.3, 0.75);
+\\draw [color=red] (4.21, 0.76) -- (4.3, 0.76);
+\\draw [color=red] (4.28, 0.82) -- (4.33, 0.82);"""
 
 
     # Leer el archivo generado

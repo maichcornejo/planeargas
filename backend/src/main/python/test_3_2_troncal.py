@@ -13,13 +13,11 @@ def test_troncal():
 
         # Contenido esperado del archivo generado
     contenido_esperado = """\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, .5) -- (.5, -2);
-\\draw [color=red] (0.5, -2.0) -- (-1.2, -1.0);
-\\draw [color=red] (-1.2, -1.0) -- (10.8, 5.9);
-\\draw [color=red] (10.8, 5.9) -- (9.1, 6.9);
-\\draw [color=red] (9.1, 6.9) -- (7.3, 5.9);
-\\draw [color=red] (7.3, 5.9) -- (5.6, 6.9);
-\\draw [color=red] (5.6, 6.9) -- (7.3, 5.9);
-\\draw [color=red] (7.3, 5.9) -- (9.1, 6.9);"""
+\\draw [color=red] (0.5, -2.0) -- (16.7, 7.4);
+\\draw [color=red] (16.7, 7.4) -- (21.1, 4.9);
+\\draw [color=red] (21.1, 4.9) -- (28.2, 9.0);
+\\draw [color=red] (28.2, 9.0) -- (26.5, 10.0);
+\\draw [color=red] (26.5, 10.0) -- (28.2, 9.0);"""
 
     # Leer el archivo generado
     with open(ruta_salida, 'r') as archivo_salida:
