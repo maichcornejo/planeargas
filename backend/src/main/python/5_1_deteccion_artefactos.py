@@ -7,11 +7,8 @@ from rasterio.transform import Affine
 # Rutas de las imágenes raster
 ARTEFACTOS_PATH = '/home/Maia/planeargas/backend/src/imagen_raster/artefactos.tif'
 VENTILACIONES_PATH = '/home/Maia/planeargas/backend/src/imagen_raster/ventilaciones.tif'
-OUTPUT_FILE_JSON = '/home/Maia/planeargas/backend/src/detecciones/detecciones.json'
-OUTPUT_FILE_LATEX = '/home/Maia/planeargas/backend/src/detecciones/detecciones.tex'
-
-# Factor de escala para reducir las coordenadas
-FACTOR_ESCALA = 0.01
+OUTPUT_FILE_JSON = '/home/Maia/planeargas/backend/src/imagen_raster/detecciones.json'
+OUTPUT_FILE_LATEX = '/home/Maia/planeargas/backend/src/imagen_raster/detecciones.tex'
 
 def cargar_imagen(path):
     """
@@ -50,17 +47,13 @@ def agrupar_pixeles(data, valor_objeto):
 def transformar_coordenadas(centroides, transform):
     """
     Transforma los centroides de las áreas agrupadas a coordenadas geográficas.
-    Aplica una escala para reducir el tamaño del dibujo.
     Retorna una lista de diccionarios con 'x' y 'y'.
     """
     coordenadas = []
     for centroide in centroides:
         fila, columna = centroide
         x, y = rasterio.transform.xy(transform, fila, columna, offset='center')
-        # Aplicar el factor de escala
-        x_escala = x * FACTOR_ESCALA
-        y_escala = y * FACTOR_ESCALA
-        coordenadas.append({'x': x_escala, 'y': y_escala})
+        coordenadas.append({'x': x, 'y': y})
     return coordenadas
 
 def generar_archivo_intermedio(artefactos, ventilaciones, crs):
@@ -122,7 +115,7 @@ def procesar_imagenes():
     centroides_artefactos = agrupar_pixeles(data_artefactos, VALOR_ARTEFACTO)
     centroides_ventilaciones = agrupar_pixeles(data_ventilaciones, VALOR_VENTILACION)
 
-    # Transformar centroides a coordenadas geográficas con escala
+    # Transformar centroides a coordenadas geográficas
     coordenadas_artefactos = transformar_coordenadas(centroides_artefactos, transform_artefactos)
     coordenadas_ventilaciones = transformar_coordenadas(centroides_ventilaciones, transform_ventilaciones)
 

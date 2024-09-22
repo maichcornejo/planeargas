@@ -1,0 +1,2 @@
+Eje medianero izquierdo en x: 375
+Eje medianero derecho en x: 1758

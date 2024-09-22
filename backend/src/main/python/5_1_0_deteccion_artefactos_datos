@@ -1,0 +1,95 @@
+import cv2
+import numpy as np
+import psycopg2
+
+# Rutas de la imagen de artefactos y conexión a la base de datos
+artefactos_image_path = '/ruta/a/tu/imagen_artefactos.png'
+
+def cargar_imagen_artefactos(path):
+    """
+    Carga la imagen de artefactos y devuelve los datos de la imagen.
+    """
+    image = cv2.imread(path)
+    if image is None:
+        raise ValueError(f"No se pudo cargar la imagen en {path}. Verifica el archivo y la ruta.")
+    return image
+
+def obtener_coordenadas_artefactos(image):
+    """
+    Detecta los artefactos en la imagen y devuelve sus coordenadas (centroides).
+    """
+    # Convertir la imagen a escala de grises
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    # Detectar contornos de los artefactos
+    _, threshold = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY)
+    contours, _ = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    
+    coordenadas = []
+    for contour in contours:
+        # Calcular el centroide de cada artefacto
+        M = cv2.moments(contour)
+        if M["m00"] != 0:
+            cX = int(M["m10"] / M["m00"])
+            cY = int(M["m01"] / M["m00"])
+            coordenadas.append((cX, cY))
+    
+    return coordenadas
+
+def consultar_artefacto_por_coordenada(coordenada_x, coordenada_y):
+    """
+    Consulta la base de datos para obtener el tipo de artefacto basado en las coordenadas.
+    """
+    conn = psycopg2.connect(
+        dbname="planeargas", 
+        user="your_username", 
+        password="your_password", 
+        host="localhost",
+        port="28001"
+    )
+    cur = conn.cursor()
+    
+    # Consulta para encontrar el artefacto más cercano a las coordenadas dadas
+    cur.execute("""
+        SELECT a.nombre, a.tipo, pa.coordenada_x, pa.coordenada_y
+        FROM posiciones_artefactos pa
+        JOIN artefactos a ON pa.artefacto_id = a.id
+        WHERE ABS(pa.coordenada_x - %s) < 5 AND ABS(pa.coordenada_y - %s) < 5
+    """, (coordenada_x, coordenada_y))
+    
+    artefacto = cur.fetchone()
+    cur.close()
+    conn.close()
+    
+    return artefacto
+
+def identificar_artefactos_en_imagen():
+    """
+    Procesa la imagen de artefactos y consulta la base de datos para identificar el tipo de cada artefacto.
+    """
+    # Cargar la imagen de artefactos
+    image = cargar_imagen_artefactos(artefactos_image_path)
+    
+    # Obtener las coordenadas de los artefactos en la imagen
+    coordenadas = obtener_coordenadas_artefactos(image)
+    
+    artefactos_detectados = []
+    for (x, y) in coordenadas:
+        artefacto = consultar_artefacto_por_coordenada(x, y)
+        if artefacto:
+            nombre, tipo, coord_x, coord_y = artefacto
+            artefactos_detectados.append({
+                "nombre": nombre,
+                "tipo": tipo,
+                "coordenada_x": coord_x,
+                "coordenada_y": coord_y
+            })
+    
+    return artefactos_detectados
+
+# Llamar a la función para identificar los artefactos
+artefactos = identificar_artefactos_en_imagen()
+
+# Mostrar los resultados
+for artefacto in artefactos:
+    print(f"Artefacto: {artefacto['nombre']}, Tipo: {artefacto['tipo']}, Coordenadas: ({artefacto['coordenada_x']}, {artefacto['coordenada_y']})")

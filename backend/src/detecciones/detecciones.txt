@@ -1,0 +1,2 @@
+No se detectó el medidor de gas correctamente.
+Candidatos encontrados:
