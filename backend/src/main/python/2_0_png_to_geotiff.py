@@ -7,14 +7,14 @@ import os
 
 # Definir las rutas de las imágenes PNG y de salida GeoTIFF
 rutas_imagenes = {
-    'caneria': '/home/meli/planeargas/backend/src/imagen_salida/caneria.png',
-    'artefactos': '/home/meli/planeargas/backend/src/imagen_salida/artefactos.png',
-    'paredes': '/home/meli/planeargas/backend/src/imagen_salida/paredes.png',
-    'subidas_bajadas': '/home/meli/planeargas/backend/src/imagen_salida/subidas_bajadas.png',
-    'ventilaciones': '/home/meli/planeargas/backend/src/imagen_salida/ventilaciones.png'
+    'caneria': '/home/Maia/planeargas/backend/src/imagen_salida/caneria.png',
+    'artefactos': '/home/Maia/planeargas/backend/src/imagen_salida/artefactos.png',
+    'paredes': '/home/Maia/planeargas/backend/src/imagen_salida/paredes.png',
+    'subidas_bajadas': '/home/Maia/planeargas/backend/src/imagen_salida/subidas_bajadas.png',
+    'ventilaciones': '/home/Maia/planeargas/backend/src/imagen_salida/ventilaciones.png'
 }
 
-output_directory = '/home/meli/planeargas/backend/src/imagen_raster/'
+output_directory = '/home/Maia/planeargas/backend/src/imagen_raster/'
 
 # Crear el directorio de salida si no existe
 os.makedirs(output_directory, exist_ok=True)

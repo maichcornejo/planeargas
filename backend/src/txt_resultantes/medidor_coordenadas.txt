@@ -1,0 +1,3 @@
+Coordenadas del Medidor (x, y): (10.02, 1.26) metros
+Distancia al eje medianero izquierdo: 10.17 metros
+Distancia al eje medianero derecho: 2.33 metros

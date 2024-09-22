@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-#!/home/Maia/planeargas/.venv/bin/python3
-=======
-<<<<<<<< HEAD:.venv/bin/flask
 #!/home/Maia/planeargas/.venv/bin/python
-========
-#!/home/meli/planeargas/.venv/bin/python
->>>>>>>> origin/meli:.venv/bin/f2py
->>>>>>> origin/meli
 # -*- coding: utf-8 -*-
 import re
 import sys
