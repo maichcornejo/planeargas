@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # Cargar la imagen usando OpenCV
-ruta_imagen = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_2.png'  # Reemplaza con la ruta de tu imagen
+ruta_imagen = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'  # Reemplaza con la ruta de tu imagen
 imagen = cv2.imread(ruta_imagen)
 
 # Convertir la imagen a RGB (OpenCV la carga como BGR por defecto)
