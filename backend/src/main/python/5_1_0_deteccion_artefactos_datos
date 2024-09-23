@@ -1,95 +1,113 @@
 import cv2
 import numpy as np
-import psycopg2
 
-# Rutas de la imagen de artefactos y conexión a la base de datos
-artefactos_image_path = '/ruta/a/tu/imagen_artefactos.png'
-
-def cargar_imagen_artefactos(path):
-    """
-    Carga la imagen de artefactos y devuelve los datos de la imagen.
-    """
-    image = cv2.imread(path)
+# Función para cargar la imagen raster
+def cargar_imagen(path):
+    image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     if image is None:
-        raise ValueError(f"No se pudo cargar la imagen en {path}. Verifica el archivo y la ruta.")
+        raise FileNotFoundError(f"No se pudo cargar la imagen en la ruta: {path}")
     return image
 
-def obtener_coordenadas_artefactos(image):
-    """
-    Detecta los artefactos en la imagen y devuelve sus coordenadas (centroides).
-    """
-    # Convertir la imagen a escala de grises
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# Función para detectar artefactos y ventilaciones
+def detectar_artefactos_ventilaciones(image):
+    # Ajustar los umbrales para artefactos y ventilaciones
+    umbral_gris_bajo = 80
+    umbral_gris_alto = 200
+    umbral_verde = 255
+
+    # Detectar artefactos en gris (valores en el rango de grises)
+    artefactos = cv2.inRange(image, umbral_gris_bajo, umbral_gris_alto)
+
+    # Detectar ventilaciones (verde brillante, en imágenes binarizadas puede aparecer como blanco)
+    ventilaciones = cv2.inRange(image, umbral_verde, umbral_verde)
+
+    return artefactos, ventilaciones
+
+# Función para asignar nombre y orientación basados en el análisis del artefacto
+def obtener_nombre_y_orientacion(artefacto_img, x, y, w, h):
+    # Determinar el tipo de artefacto basado en sus características
+    aspecto = w / h  # Relación de aspecto (ancho/alto)
+
+    if aspecto > 1.5:  # Ejemplo para determinar el tipo basado en la relación de aspecto
+        if w > 100:  # Si es ancho y tiene una relación de aspecto larga, puede ser una cocina
+            return "Cocina", "Orientación Frontal"
+        else:
+            return "Calefactor Tiro Balanceado Lateral", "Orientación Lateral"
+    elif aspecto < 1.5 and aspecto > 0.75:
+        return "Calefactor Tiro Natural", "Orientación Vertical"
+    elif aspecto < 0.75:
+        return "Caldera TBF", "Orientación Tiro Balanceado Frontal"
     
-    # Detectar contornos de los artefactos
-    _, threshold = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY)
-    contours, _ = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    
+    return "Artefacto Desconocido", "Orientación Desconocida"
+
+# Función para extraer las coordenadas de los objetos detectados
+def extraer_coordenadas(bin_image):
+    # Detectar contornos
+    contornos, _ = cv2.findContours(bin_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     coordenadas = []
-    for contour in contours:
-        # Calcular el centroide de cada artefacto
-        M = cv2.moments(contour)
-        if M["m00"] != 0:
-            cX = int(M["m10"] / M["m00"])
-            cY = int(M["m01"] / M["m00"])
-            coordenadas.append((cX, cY))
-    
+    for cnt in contornos:
+        x, y, w, h = cv2.boundingRect(cnt)
+        coordenadas.append((x, y, w, h))  # Agregar las coordenadas y el tamaño de cada contorno
     return coordenadas
 
-def consultar_artefacto_por_coordenada(coordenada_x, coordenada_y):
-    """
-    Consulta la base de datos para obtener el tipo de artefacto basado en las coordenadas.
-    """
-    conn = psycopg2.connect(
-        dbname="planeargas", 
-        user="your_username", 
-        password="your_password", 
-        host="localhost",
-        port="28001"
-    )
-    cur = conn.cursor()
-    
-    # Consulta para encontrar el artefacto más cercano a las coordenadas dadas
-    cur.execute("""
-        SELECT a.nombre, a.tipo, pa.coordenada_x, pa.coordenada_y
-        FROM posiciones_artefactos pa
-        JOIN artefactos a ON pa.artefacto_id = a.id
-        WHERE ABS(pa.coordenada_x - %s) < 5 AND ABS(pa.coordenada_y - %s) < 5
-    """, (coordenada_x, coordenada_y))
-    
-    artefacto = cur.fetchone()
-    cur.close()
-    conn.close()
-    
-    return artefacto
+# Función para procesar las imágenes y guardar el archivo de salida
+def procesar_imagenes_y_guardar(imagen_path_1, imagen_path_2, output_path):
+    # Cargar las imágenes
+    try:
+        image_1 = cargar_imagen(imagen_path_1)
+        image_2 = cargar_imagen(imagen_path_2)
+    except FileNotFoundError as e:
+        print(e)
+        return
 
-def identificar_artefactos_en_imagen():
-    """
-    Procesa la imagen de artefactos y consulta la base de datos para identificar el tipo de cada artefacto.
-    """
-    # Cargar la imagen de artefactos
-    image = cargar_imagen_artefactos(artefactos_image_path)
-    
-    # Obtener las coordenadas de los artefactos en la imagen
-    coordenadas = obtener_coordenadas_artefactos(image)
-    
-    artefactos_detectados = []
-    for (x, y) in coordenadas:
-        artefacto = consultar_artefacto_por_coordenada(x, y)
-        if artefacto:
-            nombre, tipo, coord_x, coord_y = artefacto
-            artefactos_detectados.append({
-                "nombre": nombre,
-                "tipo": tipo,
-                "coordenada_x": coord_x,
-                "coordenada_y": coord_y
-            })
-    
-    return artefactos_detectados
+    # Detectar artefactos y ventilaciones en ambas imágenes
+    artefactos_1, ventilaciones_1 = detectar_artefactos_ventilaciones(image_1)
+    artefactos_2, ventilaciones_2 = detectar_artefactos_ventilaciones(image_2)
 
-# Llamar a la función para identificar los artefactos
-artefactos = identificar_artefactos_en_imagen()
+    # Extraer las coordenadas
+    coords_artefactos_1 = extraer_coordenadas(artefactos_1)
+    coords_ventilaciones_1 = extraer_coordenadas(ventilaciones_1)
+    coords_artefactos_2 = extraer_coordenadas(artefactos_2)
+    coords_ventilaciones_2 = extraer_coordenadas(ventilaciones_2)
 
-# Mostrar los resultados
-for artefacto in artefactos:
-    print(f"Artefacto: {artefacto['nombre']}, Tipo: {artefacto['tipo']}, Coordenadas: ({artefacto['coordenada_x']}, {artefacto['coordenada_y']})")
+    # Guardar los datos en un archivo de texto
+    with open(output_path, 'w') as f:
+        f.write('Artefactos en imagen 1:\n')
+        if coords_artefactos_1:
+            for coord in coords_artefactos_1:
+                x, y, w, h = coord
+                nombre, orientacion = obtener_nombre_y_orientacion(artefactos_1, x, y, w, h)
+                f.write(f'Nombre: {nombre}, Orientación: {orientacion}, Coordenadas: {coord}\n')
+        else:
+            f.write('No se detectaron artefactos en la imagen 1\n')
+        
+        f.write('Ventilaciones en imagen 1:\n')
+        if coords_ventilaciones_1:
+            for coord in coords_ventilaciones_1:
+                f.write(f'Coordenadas: {coord}\n')
+        else:
+            f.write('No se detectaron ventilaciones en la imagen 1\n')
+
+        f.write('Artefactos en imagen 2:\n')
+        if coords_artefactos_2:
+            for coord in coords_artefactos_2:
+                x, y, w, h = coord
+                nombre, orientacion = obtener_nombre_y_orientacion(artefactos_2, x, y, w, h)
+                f.write(f'Nombre: {nombre}, Orientación: {orientacion}, Coordenadas: {coord}\n')
+        else:
+            f.write('No se detectaron artefactos en la imagen 2\n')
+
+        f.write('Ventilaciones en imagen 2:\n')
+        if coords_ventilaciones_2:
+            for coord in coords_ventilaciones_2:
+                f.write(f'Coordenadas: {coord}\n')
+        else:
+            f.write('No se detectaron ventilaciones en la imagen 2\n')
+
+# Rutas de ejemplo para probar el código
+imagen_path_1 = "/home/Maia/planeargas/backend/src/imagen_raster/ventilaciones.tif"
+imagen_path_2 = "/home/Maia/planeargas/backend/src/imagen_raster/artefactos.tif"
+output_path = "/home/Maia/planeargas/backend/src/detecciones/ventilaciones_artefactos.tif"
+
+# Ejecutar la función para procesar y generar el archivo de salida
+procesar_imagenes_y_guardar(imagen_path_1, imagen_path_2, output_path)
