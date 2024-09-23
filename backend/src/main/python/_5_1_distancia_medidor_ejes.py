@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import os
 
-# Función para encontrar el medidor de gas por ubicación fija
+
 def encontrar_medidor_por_ubicacion_fija(image, ancho_medidor=0.40, alto_medidor=0.30, resolucion=15.65, tolerancia=20):
     height, width, _ = image.shape
     metros_a_pixeles = width / resolucion  # Resolución horizontal (metros en la parte inferior)
@@ -62,7 +62,7 @@ for line in lines:
 longitud_municipal_pixels = right_medianero_x - left_medianero_x
 
 # Calcular la escala de metros por píxel
-longitud_real_metros = 15.65  # Se refiere al plano de referencia
+longitud_real_metros = 15.65 # Se refiere al plano de referencia
 escala_metros_por_pixel = longitud_real_metros / longitud_municipal_pixels
 
 # Encontrar el medidor en la imagen original

@@ -1,1 +1,3 @@
-Rejilla 1: X = 679, Y = 605
+Rejilla 1: X = 1953, Y = 981
+Rejilla 2: X = 2692, Y = 739
+Rejilla 3: X = 1702, Y = 739
