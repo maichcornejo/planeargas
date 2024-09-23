@@ -17,7 +17,7 @@ rutas_imagenes = {
 }
 
 output_directory_raster = '/home/meli/planeargas/backend/src/imagen_raster/'
-input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_1.png'
+input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_10.png'
 output_directory_png = '/home/meli/planeargas/backend/src/imagen_salida/'
 file_path_caneria_raster = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
 file_path_resultados_caneria = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
