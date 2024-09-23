@@ -1,45 +1,117 @@
 import cv2
 import numpy as np
 
-# Cargar la imagen principal (cañería) y la plantilla (llave de paso)
-image_path = '/mnt/data/planta1.PNG'
-template_path = '/mnt/data/llave.png'
+# Cargar la imagen usando OpenCV
+ruta_imagen = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_2.png'  # Reemplaza con la ruta de tu imagen
+imagen = cv2.imread(ruta_imagen)
 
-image = cv2.imread(image_path)
-template = cv2.imread(template_path, 0)  # Leer la plantilla en escala de grises
+# Convertir la imagen a RGB (OpenCV la carga como BGR por defecto)
+imagen_rgb = cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB)
 
-# Escalar la plantilla para adaptarse mejor a la imagen principal si es necesario
-scale_factor = 1.5  # Puedes ajustar este valor
-template = cv2.resize(template, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_CUBIC)
+# Definir los rangos de colores para gris (artefactos) y rojo (llaves de paso) en formato RGB
+gris_inferior_exacto = np.array([128, 128, 128])  # Gris exacto para los artefactos
+gris_superior_exacto = np.array([128, 128, 128])  # Gris exacto para los artefactos
 
-# Convertir la imagen principal a escala de grises
-gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+rojo_inferior = np.array([200, 0, 0])  # Límite inferior para las llaves rojas
+rojo_superior = np.array([255, 50, 50])  # Límite superior para las llaves rojas
 
-# Obtener las dimensiones de la plantilla
-w, h = template.shape[::-1]
+# Crear máscaras para aislar las áreas grises (artefactos) y rojas (llaves)
+mascara_gris_exacto = cv2.inRange(imagen_rgb, gris_inferior_exacto, gris_superior_exacto)
+mascara_roja = cv2.inRange(imagen_rgb, rojo_inferior, rojo_superior)
 
-# Aplicar matchTemplate para encontrar las coincidencias
-result = cv2.matchTemplate(gray_image, template, cv2.TM_CCOEFF_NORMED)
+# Encontrar contornos para los artefactos grises
+contornos_gris_exacto, _ = cv2.findContours(mascara_gris_exacto, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-# Definir un umbral de coincidencia (se puede ajustar)
-threshold = 0.7  # Ajustar el valor para más o menos coincidencias
-loc = np.where(result >= threshold)
+# Encontrar contornos para las llaves rojas
+contornos_rojos, _ = cv2.findContours(mascara_roja, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-# Inicializar una lista para las coordenadas de las llaves de paso
-llaves_de_paso = []
+# Crear una imagen en blanco para dibujar los contornos de artefactos y llaves
+imagen_salida = np.zeros_like(imagen_rgb)
 
-# Dibujar rectángulos donde se encuentran las coincidencias y guardar las coordenadas
-for pt in zip(*loc[::-1]):
-    # Dibujar un rectángulo en la imagen principal para marcar la coincidencia
-    cv2.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0, 255, 0), 2)
-    llaves_de_paso.append((pt[0], pt[1], pt[0] + w, pt[1] + h))
+# Dibujar los artefactos grises exactos en la imagen de salida
+cv2.drawContours(imagen_salida, contornos_gris_exacto, -1, (128, 128, 128), thickness=cv2.FILLED)
 
-# Guardar la imagen con las llaves de paso detectadas para verificación
-cv2.imwrite('/mnt/data/llaves_de_paso_detectadas.png', image)
+# Dibujar las llaves rojas en la imagen de salida
+cv2.drawContours(imagen_salida, contornos_rojos, -1, (255, 0, 0), thickness=cv2.FILLED)
 
-# Exportar las coordenadas de las llaves de paso a un archivo de texto
-with open('/mnt/data/deteccion_llaves_de_paso.txt', 'w') as file:
-    for llave in llaves_de_paso:
-        file.write(f"Llave de paso en coordenadas: {llave[0]}, {llave[1]} a {llave[2]}, {llave[3]}\n")
+# Guardar la imagen procesada
+ruta_imagen_salida = "/home/Maia/planeargas/backend/src/detecciones/artefactos_y_llaves_exactos.png"
 
-print("Detección completada. Coordenadas exportadas.")
+# Analizar las posiciones de las llaves rojas en relación con los artefactos grises
+posiciones_artefacto_llave = []
+
+# Aumentar el umbral de alineación para detectar más casos (ej., de 50 a 100)
+umbral_alineacion = 100
+
+# Inicializar contador para los artefactos
+contador_artefactos = 1
+
+for contorno_gris in contornos_gris_exacto:
+    # Obtener el centro del artefacto gris
+    M_gris = cv2.moments(contorno_gris)
+    if M_gris["m00"] != 0:
+        cx_gris = int(M_gris["m10"] / M_gris["m00"])
+        cy_gris = int(M_gris["m01"] / M_gris["m00"])
+
+        # Obtener los límites del artefacto
+        x, y, w, h = cv2.boundingRect(contorno_gris)
+
+        # Verificar si el artefacto tiene una llave cercana
+        llave_encontrada = False
+        for contorno_rojo in contornos_rojos:
+            # Obtener el centro de la llave roja
+            M_rojo = cv2.moments(contorno_rojo)
+            if M_rojo["m00"] != 0:
+                cx_rojo = int(M_rojo["m10"] / M_rojo["m00"])
+                cy_rojo = int(M_rojo["m01"] / M_rojo["m00"])
+
+                # Determinar si la llave está a la izquierda, derecha o debajo del artefacto
+                if abs(cy_gris - cy_rojo) < umbral_alineacion:  # Umbral para detectar horizontalmente
+                    llave_encontrada = True
+                    if cx_rojo < cx_gris:
+                        posicion = "derecha"  # Invertido
+                    else:
+                        posicion = "izquierda"  # Invertido
+                    posiciones_artefacto_llave.append((contador_artefactos, cx_gris, cy_gris, posicion))
+                # Verificar si la llave está directamente debajo del artefacto
+                elif cx_gris - (w / 2) <= cx_rojo <= cx_gris + (w / 2) and cy_rojo > cy_gris:
+                    llave_encontrada = True
+                    posicion = "debajo"
+                    posiciones_artefacto_llave.append((contador_artefactos, cx_gris, cy_gris, posicion))
+
+        # Si no se encontró una llave directamente, analizar la concentración de rojo alrededor del artefacto
+        if not llave_encontrada:
+            # Definir el área de interés (a la izquierda y derecha del artefacto)
+            region_izquierda = mascara_roja[cy_gris - 50:cy_gris + 50, cx_gris - 100:cx_gris]
+            region_derecha = mascara_roja[cy_gris - 50:cy_gris + 50, cx_gris:cx_gris + 100]
+
+            # Sumar los píxeles rojos en cada región
+            suma_izquierda = np.sum(region_izquierda)
+            suma_derecha = np.sum(region_derecha)
+
+            # Determinar qué lado tiene más píxeles rojos
+            if suma_izquierda > suma_derecha:
+                posicion = "derecha"  # Invertido
+            else:
+                posicion = "izquierda"  # Invertido
+
+            # Agregar el resultado basado en la concentración de rojo
+            posiciones_artefacto_llave.append((contador_artefactos, cx_gris, cy_gris, posicion))
+
+        # Dibujar el número del artefacto en la imagen
+        cv2.putText(imagen_salida, f"A{contador_artefactos}", (cx_gris, cy_gris), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+
+        # Incrementar el contador para el siguiente artefacto
+        contador_artefactos += 1
+
+# Guardar la imagen con los números de los artefactos
+cv2.imwrite(ruta_imagen_salida, cv2.cvtColor(imagen_salida, cv2.COLOR_RGB2BGR))
+
+# Guardar los resultados en un archivo de texto con los números de artefactos
+ruta_texto_salida = '/home/Maia/planeargas/backend/src/detecciones/deteccion_llaves_exactas.txt'
+with open(ruta_texto_salida, 'w') as f:
+    for posicion_artefacto in posiciones_artefacto_llave:
+        f.write(f"Artefacto {posicion_artefacto[0]} en ({posicion_artefacto[1]}, {posicion_artefacto[2]}) tiene la llave a la {posicion_artefacto[3]}.\n")
+
+print(f"Imagen procesada guardada en {ruta_imagen_salida}")
+print(f"Resultados de detección guardados en {ruta_texto_salida}")
