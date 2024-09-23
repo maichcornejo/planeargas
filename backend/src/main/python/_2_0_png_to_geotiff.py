@@ -18,7 +18,7 @@ def convertir_png_a_geotiff(rutas_imagenes, output_directory):
     transform = from_origin(west=0, north=0, xsize=1, ysize=1)
 
     # Definir el sistema de referencia de coordenadas (CRS)
-    crs = CRS.from_epsg(4326)  # Cambia según la necesidad
+    crs = CRS.from_epsg(4326) 
 
     # Crear un diccionario para mapear imágenes a sus índices de banda
     banda_map = {

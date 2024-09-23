@@ -8,7 +8,7 @@ def procesar_imagen(input_image_path, output_directory):
     if image is None:
         raise ValueError(f"No se pudo cargar la imagen en {input_image_path}. Verifica el archivo y la ruta.")
 
-    # Convertir la imagen a formato RGB si es necesario
+    # Convertir la imagen a formato RGB
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
     # Obtener los colores únicos en la imagen

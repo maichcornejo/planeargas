@@ -1,11 +1,16 @@
-\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, .5) -- (.5, -2);
-\draw [color=red] (0.5, -2.0) -- (8.0, 2.3);
-\draw [color=red] (8.0, 2.3) -- (12.1, -0.1);
-\draw [color=red] (12.1, -0.1) -- (15.2, 1.7);
-\draw [color=red] (15.2, 1.7) -- (13.5, 0.7);
-\draw [color=red] (13.5, 0.7) -- (15.2, -0.3);
-\draw [color=red] (15.2, -0.3) -- (13.5, 0.7);
-\draw [color=red] (13.5, 0.7) -- (11.8, -0.3);
-\draw [color=red] (11.8, -0.3) -- (10.0, 0.7);
-\draw [color=red] (10.0, 0.7) -- (11.8, 1.7);
-\draw [color=red] (11.8, 1.7) -- (13.5, 0.7);
+\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, .5) -- (.5, -2);\node [rotate = 30] at (0.2, 0.5) {0.15};\node [rotate = 90] at (0.3, -1.0) {0.90};
+\node [rotate = 30] at (8.6, 2.9) {23.45};
+\draw [color=red] (0.5, -2.0) -- (16.7, 7.4);
+\node [rotate = 30] at (8.6, 2.4) {TUBO ACERO REVESTIDO POLIETILENO};
+\node [rotate = -30] at (18.9, 6.4) {6.27};
+\draw [color=red] (16.7, 7.4) -- (21.1, 4.9);
+\node [rotate = -30] at (18.9, 5.9) {T.A.R.P.};
+\node [rotate = 30] at (24.7, 7.2) {10.32};
+\draw [color=red] (21.1, 4.9) -- (28.2, 9.0);
+\node [rotate = 30] at (24.7, 6.7) {TUBO ACERO REVESTIDO POLIETILENO};
+\node [rotate = -30] at (27.7, 9.5) {0.22};
+\draw [color=red] (28.2, 9.0) -- (27.2, 9.6);
+
+\node [rotate = -30] at (27.7, 9.5) {0.22};
+\draw [color=red] (28.2, 9.0) -- (27.2, 9.6);
+

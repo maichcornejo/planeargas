@@ -11,6 +11,7 @@ def test_extraer_subidas():
 
             # Contenido esperado del archivo generado
     contenido_esperado = """(4.298, -0.754)
+(4.91, -1.522)
 (1.914, -3.09)
 (1.798, -14.198)
 (4.320009526743253, -7.680019730334017)
