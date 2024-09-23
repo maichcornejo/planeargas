@@ -53,7 +53,7 @@ def procesar_imagen(input_image_path, output_directory):
 
 if __name__ == "__main__":
     # Rutas de entrada y salida
-    entrada_image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
+    entrada_image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_3.png'
     salida_directory = '/home/Maia/planeargas/backend/src/imagen_salida/'
     
     # Ejecutar el procesamiento

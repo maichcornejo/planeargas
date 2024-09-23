@@ -42,7 +42,7 @@ def es_rejilla(contour, hsv_image, mask):
     return False
 
 # Cargar la imagen
-image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
+image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_2.png'
 image = cv2.imread(image_path)
 
 # Convertir la imagen a formato HSV (para detección de color)
