@@ -1,0 +1,69 @@
+import cv2
+import numpy as np
+
+# Función para determinar si un contorno es una rejilla o ventilación
+def es_rejilla(contour, mask):
+    x, y, w, h = cv2.boundingRect(contour)
+    aspect_ratio = w / float(h)
+
+    # Definir un rango más amplio para detectar rejillas más altas o anchas
+    if 0.8 < aspect_ratio < 2.0 and 10 < w < 50 and 10 < h < 50:
+        # Crear una pequeña máscara alrededor del contorno para revisar si hay líneas adicionales
+        region_of_interest = mask[y-5:y+h+5, x-5:x+w+5]
+        edges = cv2.Canny(region_of_interest, 50, 150)
+
+        # Vamos a buscar líneas conectadas que sobresalgan del rectángulo
+        # Si encontramos demasiadas líneas externas, descartamos el contorno como ventilación
+        num_edges = cv2.countNonZero(edges)
+        contours_edges, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        # Filtrar según el número de contornos externos
+        if len(contours_edges) == 1 and num_edges < 800:  # Solo un contorno y menos de 800 bordes
+            return True  # Es una rejilla
+        else:
+            return False  # Es una ventilación (tiene muchas líneas externas)
+
+    return False
+
+# Cargar la imagen
+image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
+image = cv2.imread(image_path)
+
+# Convertir la imagen a formato HSV (para detección de color)
+hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+# Definir el rango de color para detectar el verde
+lower_green = np.array([40, 40, 40])
+upper_green = np.array([70, 255, 255])
+
+# Crear una máscara que detecte solo los píxeles en el rango verde
+mask = cv2.inRange(hsv_image, lower_green, upper_green)
+
+# Encontrar los contornos de las rejillas de ventilación
+contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+ventilations = []
+for contour in contours:
+    if es_rejilla(contour, mask):
+        # Calcular el centroide de cada rejilla
+        M = cv2.moments(contour)
+        if M['m00'] != 0:
+            cx = int(M['m10'] / M['m00'])  # Coordenada X
+            cy = int(M['m01'] / M['m00'])  # Coordenada Y
+            ventilations.append((cx, cy))
+
+            # Dibujar un círculo en el centro de la rejilla detectada (color azul en formato BGR)
+            cv2.circle(image, (cx, cy), 5, (255, 0, 0), -1)
+
+# Guardar la imagen con las rejillas detectadas
+output_image_path = '/home/Maia/planeargas/backend/src/detecciones/plano_con_rejillas.png'
+cv2.imwrite(output_image_path, image)
+
+# Generar el archivo de texto con las coordenadas
+output_txt_path = '/home/Maia/planeargas/backend/src/detecciones/deteccion_rejillas.txt'
+with open(output_txt_path, 'w') as file:
+    for i, (cx, cy) in enumerate(ventilations):
+        file.write(f"Rejilla {i + 1}: X = {cx}, Y = {cy}\n")
+
+print(f"Imagen guardada en: {output_image_path}")
+print(f"Coordenadas guardadas en: {output_txt_path}")

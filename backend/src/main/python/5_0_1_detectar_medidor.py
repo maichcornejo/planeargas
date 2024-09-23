@@ -32,9 +32,6 @@ def encontrar_medidor_por_ubicacion_fija(image, ancho_medidor=0.40, alto_medidor
             y_abs = y + y_inferior
 
             # Crear una nueva imagen que contenga solo el medidor
-            medidor = image[y_abs:y_abs+h, x_abs:x_abs+w]
-            
-            # Crear una imagen en blanco (transparente) para el fondo
             medidor_sin_fondo = np.zeros_like(image)
             medidor_sin_fondo[y_abs:y_abs+h, x_abs:x_abs+w] = image[y_abs:y_abs+h, x_abs:x_abs+w]
 
@@ -45,6 +42,16 @@ def encontrar_medidor_por_ubicacion_fija(image, ancho_medidor=0.40, alto_medidor
             return (x_abs, y_abs, w, h)
     
     return None  # Si no se encuentra el medidor
+
+def guardar_ubicacion_txt(x_abs, y_abs, w, h, output_txt_path):
+    # Crear el archivo de texto con las coordenadas del medidor
+    with open(output_txt_path, 'w') as file:
+        file.write(f"Coordenadas del medidor de gas:\n")
+        file.write(f"Posición X: {x_abs} píxeles\n")
+        file.write(f"Posición Y: {y_abs} píxeles\n")
+        file.write(f"Ancho del medidor: {w} píxeles\n")
+        file.write(f"Alto del medidor: {h} píxeles\n")
+    print(f"Ubicación guardada en {output_txt_path}")
 
 # Verificar si la imagen se carga correctamente
 image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
@@ -59,6 +66,10 @@ if os.path.exists(image_path):
         if medidor_coordenadas:
             x_abs, y_abs, w, h = medidor_coordenadas
             print(f"Medidor encontrado en las coordenadas (x, y): ({x_abs}, {y_abs}) con ancho: {w} y alto: {h} píxeles")
+            
+            # Guardar las coordenadas en un archivo de texto
+            output_txt_path = '/home/Maia/planeargas/backend/src/detecciones/ubicacion_medidor.txt'
+            guardar_ubicacion_txt(x_abs, y_abs, w, h, output_txt_path)
         else:
             print("Medidor no encontrado")
 else:

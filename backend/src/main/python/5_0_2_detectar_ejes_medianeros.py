@@ -1,70 +1,48 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
-# Ruta para guardar el archivo TXT con la información de los ejes medianeros
-OUTPUT_FILE_TXT = '/home/Maia/planeargas/backend/src/detecciones/ejes_medianeros.txt'
+# Cargar la imagen
+image_path = '/mnt/data/paredes.png'
+image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
-def detectar_ejes(ruta_imagen):
-    # Cargar la imagen (paredes.png, para detectar ejes medianeros)
-    imagen = cv2.imread(ruta_imagen)
-    if imagen is None:
-        print("Error al cargar la imagen de ejes.")
-        return None, None
+# Detectar bordes usando Canny
+edges = cv2.Canny(image, threshold1=100, threshold2=200)
 
-    # Convertir a escala de grises
-    gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
+# Encontrar las coordenadas no cero (donde hay líneas)
+coordinates = np.column_stack(np.where(edges > 0))
 
-    # Aplicar desenfoque para reducir el ruido
-    desenfocado = cv2.GaussianBlur(gris, (5, 5), 0)
+# Obtener los puntos más a la izquierda y más a la derecha (en el eje X)
+left_medianero = coordinates[np.argmin(coordinates[:, 1])]
+right_medianero = coordinates[np.argmax(coordinates[:, 1])]
 
-    # Detectar bordes usando Canny
-    bordes = cv2.Canny(desenfocado, 50, 150, apertureSize=3)
+# Asumimos que 1 pixel = 1 metro para este ejemplo (modificar esta parte si se tiene otra escala)
+# Si se tiene una escala, reemplazar esta parte por la conversión adecuada
+pixels_to_meters = 1  # Cambiar si hay una escala diferente
 
-    # Detectar líneas usando la Transformada de Hough
-    lines = cv2.HoughLinesP(bordes, 1, np.pi / 180, threshold=100, minLineLength=100, maxLineGap=10)
+# Calcular las posiciones en metros
+left_medianero_meters = left_medianero[1] * pixels_to_meters
+right_medianero_meters = right_medianero[1] * pixels_to_meters
 
-    if lines is None:
-        print("No se detectaron líneas para los ejes medianeros.")
-        return None, None
+# Guardar los resultados en un archivo de texto
+output_txt = '/home/Maia/planeargas/backend/src/imagen_salida/paredes.png'
+with open(output_txt, "w") as f:
+    f.write(f"Eje medianero izquierdo en pixeles: {left_medianero[1]}\n")
+    f.write(f"Eje medianero derecho en pixeles: {right_medianero[1]}\n")
+    f.write(f"Eje medianero izquierdo en metros: {left_medianero_meters}\n")
+    f.write(f"Eje medianero derecho en metros: {right_medianero_meters}\n")
 
-    # Filtrar líneas verticales (consideramos líneas con ángulo cercano a 90 grados)
-    vertical_lines = []
-    for line in lines:
-        for x1, y1, x2, y2 in line:
-            if abs(x2 - x1) < 10:  # Consideramos la línea como vertical si la diferencia en x es pequeña
-                vertical_lines.append(line)
+# Marcar los puntos sobre la imagen original
+marked_image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+cv2.circle(marked_image, (left_medianero[1], left_medianero[0]), 10, (0, 0, 255), -1)
+cv2.circle(marked_image, (right_medianero[1], right_medianero[0]), 10, (0, 0, 255), -1)
 
-    if len(vertical_lines) < 2:
-        print("No se detectaron suficientes líneas verticales para los ejes medianeros.")
-        return None, None
+# Guardar la nueva imagen con los puntos marcados
+output_image_path = "/mnt/data/marked_medianeros.png"
+cv2.imwrite(output_image_path, marked_image)
 
-    # Ordenar las líneas verticales por su posición x (para detectar la línea más a la izquierda y a la derecha)
-    vertical_lines_sorted = sorted(vertical_lines, key=lambda line: (line[0][0] + line[0][2]) / 2)
+# Mostrar la imagen con los puntos marcados
+plt.imshow(cv2.cvtColor(marked_image, cv2.COLOR_BGR2RGB))
+plt.show()
 
-    # Seleccionar las dos líneas más a la izquierda y a la derecha
-    eje_izquierdo = vertical_lines_sorted[0][0]
-    eje_derecho = vertical_lines_sorted[-1][0]
-
-    # Obtener las posiciones x de los ejes medianeros
-    x_eje_izquierdo = int((eje_izquierdo[0] + eje_izquierdo[2]) / 2)
-    x_eje_derecho = int((eje_derecho[0] + eje_derecho[2]) / 2)
-
-    print(f"Eje medianero izquierdo detectado en x={x_eje_izquierdo}")
-    print(f"Eje medianero derecho detectado en x={x_eje_derecho}")
-
-    return x_eje_izquierdo, x_eje_derecho
-
-# Ruta de la imagen
-ruta_imagen = '/home/Maia/planeargas/backend/src/imagen_salida/paredes.png'
-
-# Detectar ejes medianeros
-x_eje_izquierdo, x_eje_derecho = detectar_ejes(ruta_imagen)
-
-# Si se detectaron los ejes correctamente, generar el archivo TXT
-if x_eje_izquierdo is not None and x_eje_derecho is not None:
-    with open(OUTPUT_FILE_TXT, "w") as archivo_txt:
-        archivo_txt.write(f"Eje medianero izquierdo en x: {x_eje_izquierdo}\n")
-        archivo_txt.write(f"Eje medianero derecho en x: {x_eje_derecho}\n")
-    print(f"Archivo TXT '{OUTPUT_FILE_TXT}' generado con éxito.")
-else:
-    print("No se pudieron detectar los ejes medianeros correctamente.")
+print(f"Proceso completado. Resultados guardados en {output_txt} y {output_image_path}")
