@@ -1,48 +1,77 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Cargar la imagen
-image_path = '/mnt/data/paredes.png'
+image_path = '/home/Maia/planeargas/backend/src/imagen_salida/paredes.png'
 image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
-# Detectar bordes usando Canny
-edges = cv2.Canny(image, threshold1=100, threshold2=200)
+# Aplicar un umbral para detectar las líneas
+_, thresh = cv2.threshold(image, 240, 255, cv2.THRESH_BINARY_INV)
 
-# Encontrar las coordenadas no cero (donde hay líneas)
-coordinates = np.column_stack(np.where(edges > 0))
+# Detectar bordes
+edges = cv2.Canny(thresh, 50, 150, apertureSize=3)
 
-# Obtener los puntos más a la izquierda y más a la derecha (en el eje X)
-left_medianero = coordinates[np.argmin(coordinates[:, 1])]
-right_medianero = coordinates[np.argmax(coordinates[:, 1])]
+# Detectar líneas usando la Transformada de Hough
+lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 100, minLineLength=50, maxLineGap=5)
 
-# Asumimos que 1 pixel = 1 metro para este ejemplo (modificar esta parte si se tiene otra escala)
-# Si se tiene una escala, reemplazar esta parte por la conversión adecuada
-pixels_to_meters = 1  # Cambiar si hay una escala diferente
+# Inicializar variables para almacenar las coordenadas de los ejes medianeros
+left_medianero_x = float('inf')  # La coordenada x más pequeña
+right_medianero_x = -float('inf')  # La coordenada x más grande
+municipal_line_y = None
 
-# Calcular las posiciones en metros
-left_medianero_meters = left_medianero[1] * pixels_to_meters
-right_medianero_meters = right_medianero[1] * pixels_to_meters
+# Iterar sobre las líneas detectadas
+for line in lines:
+    x1, y1, x2, y2 = line[0]
+    
+    # Si la línea es vertical (misma coordenada x con margen de error)
+    if abs(x1 - x2) < 10:
+        # Actualizar la coordenada del eje medianero izquierdo (la x más pequeña)
+        if x1 < left_medianero_x:
+            left_medianero_x = x1
+        
+        # Actualizar la coordenada del eje medianero derecho (la x más grande)
+        if x1 > right_medianero_x:
+            right_medianero_x = x1
+    
+    # Detectar la línea municipal, que es la línea horizontal más baja
+    if abs(y1 - y2) < 10:
+        if municipal_line_y is None or y1 > municipal_line_y:
+            municipal_line_y = y1
 
-# Guardar los resultados en un archivo de texto
-output_txt = '/home/Maia/planeargas/backend/src/imagen_salida/paredes.png'
-with open(output_txt, "w") as f:
-    f.write(f"Eje medianero izquierdo en pixeles: {left_medianero[1]}\n")
-    f.write(f"Eje medianero derecho en pixeles: {right_medianero[1]}\n")
-    f.write(f"Eje medianero izquierdo en metros: {left_medianero_meters}\n")
-    f.write(f"Eje medianero derecho en metros: {right_medianero_meters}\n")
+# Calcular la longitud en píxeles de la línea municipal
+if left_medianero_x != float('inf') and right_medianero_x != -float('inf'):
+    longitud_municipal_pixels = right_medianero_x - left_medianero_x
+    print(f'La línea municipal mide {longitud_municipal_pixels} píxeles en el plano.')
 
-# Marcar los puntos sobre la imagen original
-marked_image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
-cv2.circle(marked_image, (left_medianero[1], left_medianero[0]), 10, (0, 0, 255), -1)
-cv2.circle(marked_image, (right_medianero[1], right_medianero[0]), 10, (0, 0, 255), -1)
+# Obtener la escala metros por píxel usando un plano de referencia con longitud real
+longitud_real_metros = 15.65  # Ejemplo, solo en plano de referencia
+escala_metros_por_pixel = longitud_real_metros / longitud_municipal_pixels
+print(f'La escala es de {escala_metros_por_pixel:.5f} metros por píxel.')
 
-# Guardar la nueva imagen con los puntos marcados
-output_image_path = "/mnt/data/marked_medianeros.png"
-cv2.imwrite(output_image_path, marked_image)
+# Calcular la longitud en metros de la línea municipal
+longitud_municipal_metros = longitud_municipal_pixels * escala_metros_por_pixel
+print(f'La línea municipal mide {longitud_municipal_metros:.2f} metros.')
 
-# Mostrar la imagen con los puntos marcados
-plt.imshow(cv2.cvtColor(marked_image, cv2.COLOR_BGR2RGB))
-plt.show()
+# Guardar la imagen con los ejes y la línea municipal dibujada
+output_image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
 
-print(f"Proceso completado. Resultados guardados en {output_txt} y {output_image_path}")
+# Dibujar los ejes medianeros y la línea municipal
+if left_medianero_x != float('inf') and municipal_line_y:
+    cv2.line(output_image, (left_medianero_x, municipal_line_y), (left_medianero_x, 0), (0, 255, 0), 2)  # Eje izquierdo en verde
+if right_medianero_x != -float('inf') and municipal_line_y:
+    cv2.line(output_image, (right_medianero_x, municipal_line_y), (right_medianero_x, 0), (0, 0, 255), 2)  # Eje derecho en rojo
+
+if left_medianero_x != float('inf') and right_medianero_x != -float('inf') and municipal_line_y:
+    cv2.line(output_image, (left_medianero_x, municipal_line_y), (right_medianero_x, municipal_line_y), (0, 255, 255), 2)  # Línea municipal en amarillo
+
+cv2.imwrite('/home/Maia/planeargas/backend/src/detecciones/ejes_medianeros_municipal_con_escala.png', output_image)
+
+# Guardar los datos en un archivo txt
+txt_output_path = '/home/Maia/planeargas/backend/src/detecciones/resultado_ejes_municipal.txt'
+with open(txt_output_path, 'w') as f:
+    f.write(f'Eje Medianero Izquierdo (X): {left_medianero_x} px\n')
+    f.write(f'Eje Medianero Derecho (X): {right_medianero_x} px\n')
+    f.write(f'Longitud del Eje Municipal en Píxeles: {longitud_municipal_pixels} px\n')
+    f.write(f'Longitud del Eje Municipal en Metros: {longitud_municipal_metros:.2f} m\n')
+
+print(f'Los datos se han guardado en {txt_output_path}')

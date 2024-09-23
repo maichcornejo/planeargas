@@ -54,7 +54,7 @@ def guardar_ubicacion_txt(x_abs, y_abs, w, h, output_txt_path):
     print(f"Ubicación guardada en {output_txt_path}")
 
 # Verificar si la imagen se carga correctamente
-image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
+image_path = '/home/Maia/planeargas/backend/src/imagen_salida/paredes.png'
 if os.path.exists(image_path):
     image = cv2.imread(image_path)
     if image is None:

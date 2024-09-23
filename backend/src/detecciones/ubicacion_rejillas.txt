@@ -1,3 +1,0 @@
-Rejilla 1: X = 1188, Y = 779
-Rejilla 2: X = 1278, Y = 364
-Rejilla 3: X = 1164, Y = 228

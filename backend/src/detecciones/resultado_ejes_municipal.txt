@@ -1,0 +1,4 @@
+Eje Medianero Izquierdo (X): 399 px
+Eje Medianero Derecho (X): 1733 px
+Longitud del Eje Municipal en Píxeles: 1334 px
+Longitud del Eje Municipal en Metros: 15.65 m

@@ -1,2 +1,0 @@
-Distancia desde el medidor al eje medianero izquierdo: 0.39 metros
-Distancia desde el medidor al eje medianero derecho: 9.51 metros
