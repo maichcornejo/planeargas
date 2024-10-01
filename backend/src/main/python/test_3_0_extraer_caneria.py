@@ -7,7 +7,7 @@ input_file_path = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
 output_file_path = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
 
 # Ejecutar la función principal para extraer cañería
-process_geotiff_caneria(input_file_path, output_file_path)
+process_geotiff_caneria(input_file_path, output_file_path, 'red')
 
 def test_process_geotiff_caneria():
 

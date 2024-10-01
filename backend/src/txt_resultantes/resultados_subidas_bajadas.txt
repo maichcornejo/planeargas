@@ -1,5 +1,4 @@
-(4.298, -0.754)
-(4.91, -1.522)
-(1.914, -3.09)
-(1.798, -14.198)
-(4.320009526743253, -7.680019730334017)
+\fill [color=blue] (1.79, 14.21) circle (1pt);
+\fill [color=blue] (1.91, 3.10) circle (1pt);
+\fill [color=blue] (4.90, 1.53) circle (1pt);
+\fill [color=blue] (4.30, 0.76) circle (1pt);

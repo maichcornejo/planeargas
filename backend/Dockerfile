@@ -15,8 +15,4 @@ COPY . .
 EXPOSE 8080
 
 # Define el comando de inicio
-<<<<<<< HEAD
 CMD ["python", "app.py"]
-=======
-CMD ["python", "app.py"]
->>>>>>> 366618d8 (primer actualizacion melli)
