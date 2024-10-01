@@ -69,7 +69,7 @@ def proceso_distancia_medidor(image_path):
         distancia_izquierda_metros = distancia_izquierda_px * escala_metros_por_pixel
         distancia_derecha_metros = distancia_derecha_px * escala_metros_por_pixel
 
-        txt_output_path = '/home/meli/planeargas/backend/src/detecciones/distancia_medidor_ejes.txt'
+        txt_output_path = '/home/Maia/planeargas/backend/src/detecciones/distancia_medidor_ejes.txt'
         with open(txt_output_path, 'w') as f:
             f.write(f'Eje Medianero Izquierdo (X): {medianero_izquierdo_x} píxeles\n')
             f.write(f'Eje Medianero Derecho (X): {medianero_derecho_x} píxeles\n')
@@ -84,11 +84,11 @@ def proceso_distancia_medidor(image_path):
         cv2.line(image_color, (centro_medidor_x, municipal_line_y), (medianero_derecho_x, municipal_line_y), (0, 0, 255), 2)  
         cv2.circle(image_color, (centro_medidor_x, y_abs + h // 2), 5, (255, 0, 0), -1) 
 
-        output_image_path = '/home/meli/planeargas/backend/src/detecciones/distancia_medidor_visual.png'
+        output_image_path = '/home/Maia/planeargas/backend/src/detecciones/distancia_medidor_visual.png'
         cv2.imwrite(output_image_path, image_color)
         print(f"Imagen con las distancias generada: {output_image_path}")
     else:
         print("No se pudo encontrar el medidor en la imagen.")
 
-imagen_detectar_ejes_medianeros = '/home/meli/planeargas/backend/src/imagen_salida/paredes.png'
+imagen_detectar_ejes_medianeros = '/home/Maia/planeargas/backend/src/imagen_salida/paredes.png'
 proceso_distancia_medidor(imagen_detectar_ejes_medianeros)

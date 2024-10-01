@@ -3,9 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np 
 
 # Cargar el archivo GeoTIFF
-# with rasterio.open('/home/meli/planeargas/backend/src/imagen_raster/caneria.tif') as dataset:
-with rasterio.open('/home/meli/planeargas/backend/src/imagen_raster/subidas_bajadas.tif') as dataset:
-
+with rasterio.open('/home/Maia/planeargas/backend/src/imagen_raster/caneria.tif') as dataset:
+#with rasterio.open('red_areas_detected.tif') as dataset:
     # Leer la primera banda (en caso de imágenes en escala de grises o monocanal)
     band1 = dataset.read(1)
 

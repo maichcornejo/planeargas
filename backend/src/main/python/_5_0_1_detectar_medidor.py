@@ -32,7 +32,7 @@ def encontrar_medidor_por_ubicacion_fija(image, resolucion):
             medidor_sin_fondo[y_abs:y_abs+h, x_abs:x_abs+w] = image[y_abs:y_abs+h, x_abs:x_abs+w]
 
             # Guardar la imagen del medidor sin fondo
-            cv2.imwrite('/home/meli/planeargas/backend/src/detecciones/medidor_sin_fondo.png', medidor_sin_fondo)
+            cv2.imwrite('/home/Maia/planeargas/backend/src/detecciones/medidor_sin_fondo.png', medidor_sin_fondo)
 
             # Retornar las coordenadas y dimensiones del medidor
             return (x_abs, y_abs, w, h)
@@ -62,13 +62,13 @@ def proceso_principal_medidor(image_path, resolucion):
             if medidor_coordenadas:
                 x_abs, y_abs, w, h = medidor_coordenadas
                 print(f"Medidor encontrado en las coordenadas (x, y): ({x_abs}, {y_abs}) con ancho: {w} y alto: {h} píxeles")
-                output_txt_path = '/home/meli/planeargas/backend/src/detecciones/ubicacion_medidor.txt'
+                output_txt_path = '/home/Maia/planeargas/backend/src/detecciones/ubicacion_medidor.txt'
                 guardar_ubicacion_txt(x_abs, y_abs, w, h, output_txt_path)
             else:
                 print("Medidor no encontrado")
     else:
         print(f"Error: La ruta {image_path} no existe. Verifica si el archivo está en la ubicación correcta.")
 
-ruta = '/home/meli/planeargas/backend/src/imagen_entrada/planta_1.png'
+ruta = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
 resolucion = 15.65
 proceso_principal_medidor(ruta,resolucion)

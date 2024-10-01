@@ -30,10 +30,10 @@ def process_geotiff_puntos(file_path, output_file, color):
             f.write(f'\\fill [color={color}] ({x:.2f}, {y:.2f}) circle (1pt);\n')
 
 # Ruta al archivo GeoTIFF de puntos
-file_path = '/home/meli/planeargas/backend/src/imagen_raster/subidas_bajadas.tif'
+file_path = '/home/Maia/planeargas/backend/src/imagen_raster/subidas_bajadas.tif'
 color = 'blue'
 # Ruta al archivo de salida
-output_file = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt'
+output_file = '/home/Maia/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt'
 
 # Procesar el archivo GeoTIFF para extraer puntos
 process_geotiff_puntos(file_path, output_file, color)
