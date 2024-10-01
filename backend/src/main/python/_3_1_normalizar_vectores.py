@@ -13,10 +13,6 @@ def leer_vectores(ruta_archivo):
                 vectores.append(((x1, y1), (x2, y2)))
     return vectores
 
-<<<<<<< HEAD
-
-=======
->>>>>>> meli
 # Ordenar los vectores por el valor 'y' mayor de cada par
 def ordenar_vectores_por_y(vectores):
     return sorted(vectores, key=lambda v: max(v[0][1], v[1][1]), reverse=True)
@@ -59,10 +55,6 @@ def proyectar_y_conectar_vectores(vectores):
 
         # Añadir el vector más cercano a la cadena y actualizar el punto actual
         if vector_mas_cercano is not None:
-<<<<<<< HEAD
-            print(distancia_minima)
-=======
->>>>>>> meli
             if distancia_minima > 0.17:
                 break
             else:
@@ -77,17 +69,6 @@ def proyectar_y_conectar_vectores(vectores):
 
     return cadena_vectores
 
-<<<<<<< HEAD
-
-def borrar_llaves(vectores):
-    vectores_filtrados = []
-    for (x1, y1), (x2, y2) in vectores:
-        numero_truncado = abs(float(format((x1 - x2) + (y1 - y2), ".2f")))
-        if numero_truncado > 0.11:
-            vectores_filtrados.append(((x1, y1), (x2, y2)))
-    return vectores_filtrados
-
-=======
 def misma_direccion_y_sentido(v1, v2):
     """Verifica si dos vectores están en la misma dirección y tienen el mismo sentido."""
     (x1, y1), (x2, y2) = v1
@@ -123,7 +104,6 @@ def empalmar_vectores(vectores, inicio_indice=0):
         i += 1
     
     return vectores_modificados
->>>>>>> meli
 
 
 # Guardar el resultado en un archivo de texto
@@ -132,35 +112,22 @@ def guardar_vectores(ruta_salida, vectores):
         for (x1, y1), (x2, y2) in vectores:
             archivo.write(f"\\draw [color=red] ({x1}, {y1}) -- ({x2}, {y2});\n")
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> meli
 # Proceso principal
 def optimizar_caneria(ruta_entrada, ruta_salida):
     vectores = leer_vectores(ruta_entrada)
     vectores_ordenados = ordenar_vectores_por_y(vectores)
-<<<<<<< HEAD
-    vectores_sin_llaves = borrar_llaves(vectores_ordenados)
-    vectores_proyectados = proyectar_y_conectar_vectores(vectores_ordenados)
-    guardar_vectores(ruta_salida, vectores_proyectados)
-=======
     vectores_proyectados = proyectar_y_conectar_vectores(vectores_ordenados)
     vectores_empalmados = empalmar_vectores(vectores_proyectados)
     guardar_vectores(ruta_salida, vectores_empalmados)
 
->>>>>>> meli
 
 
 # Ruta de los archivos
-ruta_entrada = "/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt"
-ruta_salida = "/home/meli/planeargas/backend/src/txt_resultantes/caneria_optimizada.txt"
-<<<<<<< HEAD
-
-=======
->>>>>>> meli
+ruta_entrada = "/home/Maia/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt"
+ruta_salida = "/home/Maia/planeargas/backend/src/txt_resultantes/caneria_optimizada.txt"
 # Ejecutar el proceso de optimización con proyección
 optimizar_caneria(ruta_entrada, ruta_salida)

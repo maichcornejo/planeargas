@@ -8,11 +8,7 @@ def procesar_imagen(input_image_path, output_directory):
     if image is None:
         raise ValueError(f"No se pudo cargar la imagen en {input_image_path}. Verifica el archivo y la ruta.")
 
-<<<<<<< HEAD
-    # Convertir la imagen a formato RGB si es necesario
-=======
     # Convertir la imagen a formato RGB
->>>>>>> meli
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
     # Obtener los colores únicos en la imagen
@@ -57,16 +53,8 @@ def procesar_imagen(input_image_path, output_directory):
 
 if __name__ == "__main__":
     # Rutas de entrada y salida
-<<<<<<< HEAD
     entrada_image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png'
     salida_directory = '/home/Maia/planeargas/backend/src/imagen_salida/'
     
     # Ejecutar el procesamiento
     procesar_imagen(entrada_image_path, salida_directory)
-=======
-    entrada_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_1.png'
-    salida_directory = '/home/meli/planeargas/backend/src/imagen_salida/'
-    
-    # Ejecutar el procesamiento
-    procesar_imagen(entrada_image_path, salida_directory)
->>>>>>> meli

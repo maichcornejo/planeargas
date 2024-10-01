@@ -34,7 +34,7 @@ def proceso_deteccion_llave_de_paso(ruta_imagen):
     cv2.drawContours(imagen_salida, contornos_rojos, -1, (255, 0, 0), thickness=cv2.FILLED)
 
     
-    ruta_imagen_salida = "/home/meli/planeargas/backend/src/detecciones/artefactos_y_llaves_exactos.png"
+    ruta_imagen_salida = "/home/Maia/planeargas/backend/src/detecciones/artefactos_y_llaves_exactos.png"
 
     
     posiciones_artefacto_llave = []
@@ -101,7 +101,7 @@ def proceso_deteccion_llave_de_paso(ruta_imagen):
     cv2.imwrite(ruta_imagen_salida, cv2.cvtColor(imagen_salida, cv2.COLOR_RGB2BGR))
 
     # Guard0 los resultados en un archivo de texto con los números de artefactos
-    ruta_texto_salida = '/home/meli/planeargas/backend/src/detecciones/deteccion_llaves_exactas.txt'
+    ruta_texto_salida = '/home/Maia/planeargas/backend/src/detecciones/deteccion_llaves_exactas.txt'
     with open(ruta_texto_salida, 'w') as f:
         for posicion_artefacto in posiciones_artefacto_llave:
             f.write(f"Artefacto {posicion_artefacto[0]} en ({posicion_artefacto[1]}, {posicion_artefacto[2]}) tiene la llave a la {posicion_artefacto[3]}.\n")
@@ -109,5 +109,5 @@ def proceso_deteccion_llave_de_paso(ruta_imagen):
     print(f"Imagen procesada guardada en {ruta_imagen_salida}")
     print(f"Resultados de detección guardados en {ruta_texto_salida}")
 
-input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_5.png'
+input_image_path = '/home/Maia/planeargas/backend/src/imagen_entrada/planta_5.png'
 proceso_deteccion_llave_de_paso(input_image_path)

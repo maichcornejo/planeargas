@@ -78,10 +78,10 @@ def sumar_muchos_vectores(vectores, vector, ruta_salida, color):
     return nuevos_vectores
 
 
-ruta_salida = '/home/meli/planeargas/backend/src/txt_resultantes/restados.txt'
+ruta_salida = '/home/Maia/planeargas/backend/src/txt_resultantes/restados.txt'
 color = 'red'
 vector_1 = (8.46, 8.24)
-vectores = leer_vectores('/home/meli/planeargas/backend/src/txt_resultantes/centroides.txt')
+vectores = leer_vectores('/home/Maia/planeargas/backend/src/txt_resultantes/centroides.txt')
 # centroide = calcular_centroide_vectores(vectores)
 #centroide = (-6.105,-5.30)
 #punto_final = sumar_vectores (centroide,vector_1)
