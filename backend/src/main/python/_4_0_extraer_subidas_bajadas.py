@@ -4,13 +4,6 @@ import numpy as np
 from rasterio.features import shapes
 from shapely.geometry import shape
 from math import sqrt
-<<<<<<< HEAD
-=======
-
-# Función para calcular la distancia entre dos puntos
-def distancia(punto1, punto2):
-    return sqrt((punto1[0] - punto2[0])**2 + (punto1[1] - punto2[1])**2)
->>>>>>> aa5cfefab (cambie las imagenes de entrada)
 
 # Función para calcular la distancia entre dos puntos
 def distancia(punto1, punto2):
