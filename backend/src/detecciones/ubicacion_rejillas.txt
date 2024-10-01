@@ -1,0 +1,2 @@
+Rejilla 1: X = 1293, Y = 2551
+Rejilla 2: X = 536, Y = 1386

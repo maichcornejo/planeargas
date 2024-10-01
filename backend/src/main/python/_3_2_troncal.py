@@ -61,7 +61,7 @@ def asignar_punto_a_vector(puntos, vectores):
 
     return asignaciones
 
-def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo_y,longitud_real,tipo_caneria):
+def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo_y,longitud_real,tipo_caneria,tipo_caneria_abreviado):
             distancia = distancia * 2
             angulo_radianes = math.radians(angulo_grados)
             longitud = (abs(distancia * math.cos(angulo_radianes)))*negativo_x + x_real
@@ -202,5 +202,6 @@ ruta_salida = "/home/meli/planeargas/backend/src/txt_resultantes/troncal_latex.t
 ruta_entrada_saltos = "/home/meli/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt"
 tipo_caneria = "TUBO ACERO REVESTIDO POLIETILENO"
 tipo_caneria_abreviado = "T.A.R.P."
+subidas = ('0.60','') 
 # Ejecutar el proceso de optimización con proyección
-troncal_caneria(ruta_entrada, ruta_salida,tipo_caneria)
+troncal_caneria(ruta_entrada, ruta_salida,tipo_caneria, tipo_caneria_abreviado)

@@ -1,3 +1,2 @@
-Artefacto 1 en (441, 760) tiene la llave a la izquierda.
-Artefacto 2 en (1275, 391) tiene la llave a la derecha.
-Artefacto 3 en (1040, 220) tiene la llave a la izquierda.
+Artefacto 1 en (411, 1595) tiene la llave a la derecha.
+Artefacto 1 en (411, 1595) tiene la llave a la izquierda.
