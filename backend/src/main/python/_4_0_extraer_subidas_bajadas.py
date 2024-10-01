@@ -4,6 +4,13 @@ import numpy as np
 from rasterio.features import shapes
 from shapely.geometry import shape
 from math import sqrt
+<<<<<<< HEAD
+=======
+
+# Función para calcular la distancia entre dos puntos
+def distancia(punto1, punto2):
+    return sqrt((punto1[0] - punto2[0])**2 + (punto1[1] - punto2[1])**2)
+>>>>>>> aa5cfefab (cambie las imagenes de entrada)
 
 # Función para calcular la distancia entre dos puntos
 def distancia(punto1, punto2):
@@ -35,15 +42,31 @@ def process_geotiff_puntos(file_path, output_file, color):
     # Encontrar los contornos de los puntos
     contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     escala = 250
-    # Guardar las ubicaciones (coordenadas) y centroides en un archivo TXT
+    radio_cercania = .1  # Radio de cercanía para ignorar centroides cercanos
+    centroides_guardados = []  # Lista para almacenar centroides guardados
+
+    # Guardar los centroides en un archivo TXT
     with open(output_file, 'w') as f:
         for polygon in polygons:
             centroid = polygon.centroid  # Calcular el centroide
-            f.write(f"Polígono:\n")
-            for coord in coords:
-                f.write(f"({coord[0]/escala}, {coord[1]/escala})\n")
-            f.write(f"Centroide: ({centroid.x/escala}, {centroid.y/escala})\n")
-            f.write("\n")  # Separar polígonos con una línea en blanco
+            centroide_actual = (centroid.x / escala, centroid.y / escala)
+
+            # Verificar si el centroide está cerca de otro ya guardado
+            ignorar = False
+            for centroide_guardado in centroides_guardados:
+                if distancia(centroide_actual, centroide_guardado) <= radio_cercania:
+                    ignorar = True
+                    break
+
+            if ignorar:
+                continue  # Ignorar este centroide si está cerca de otro
+
+            # Guardar el centroide en la lista de centroides guardados
+            centroides_guardados.append(centroide_actual)
+
+            # Escribir el centroide en el archivo
+            f.write(f"({centroid.x / escala}, {centroid.y / escala})\n")
+
 
 # Ruta al archivo de entrada y salida
 input_file = '/home/meli/planeargas/backend/src/imagen_raster/subidas_bajadas.tif'
