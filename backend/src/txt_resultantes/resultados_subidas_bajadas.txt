@@ -1,0 +1,4 @@
+\fill [color=blue] (1.79, 14.21) circle (1pt);
+\fill [color=blue] (1.91, 3.10) circle (1pt);
+\fill [color=blue] (4.90, 1.53) circle (1pt);
+\fill [color=blue] (4.30, 0.76) circle (1pt);

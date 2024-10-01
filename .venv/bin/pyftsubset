@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/home/Maia/planeargas/.venv/bin/python
+=======
+#!/home/meli/planeargas/.venv/bin/python
+>>>>>>> c3f8c73b2bb56c4bbab7a8370c3235a08702c183
 # -*- coding: utf-8 -*-
 import re
 import sys
