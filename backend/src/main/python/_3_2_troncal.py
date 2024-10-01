@@ -83,7 +83,7 @@ def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo
 
 
 
-def isometrica(vectores, tipo_caneria):
+def isometrica(vectores, tipo_caneria,tipo_caneria_abreviado):
 
     primer_vector = vectores[0]
     vector_actual = vectores[1]
@@ -151,10 +151,10 @@ def isometrica(vectores, tipo_caneria):
             grados_anterior = angulo
             if ((vs_y1 + vs_y2) / 2) > pa_y:
                 # izquierda
-                x_real, y_real, linea,texto_cota,texto = dibujar_linea(x_real, y_real, distancia, angulo, -1, -1,longitud_real,tipo_caneria)
+                x_real, y_real, linea,texto_cota,texto = dibujar_linea(x_real, y_real, distancia, angulo, -1, -1,longitud_real,tipo_caneria,tipo_caneria_abreviado)
             else:
                 # derecha
-                x_real, y_real, linea,texto_cota,texto = dibujar_linea(x_real, y_real, distancia, angulo, 1, 1,longitud_real,tipo_caneria)
+                x_real, y_real, linea,texto_cota,texto = dibujar_linea(x_real, y_real, distancia, angulo, 1, 1,longitud_real,tipo_caneria,tipo_caneria_abreviado)
                 
         else:
             if grados_anterior != 150:
@@ -162,10 +162,10 @@ def isometrica(vectores, tipo_caneria):
                 grados_anterior = angulo
                 if ((vs_x1 + vs_x2) / 2) > pa_x:
                     # izquierda
-                    x_real, y_real, linea,texto_cota,texto = dibujar_linea(x_real, y_real, distancia, angulo, 1, -1,longitud_real,tipo_caneria)
+                    x_real, y_real, linea,texto_cota,texto = dibujar_linea(x_real, y_real, distancia, angulo, 1, -1,longitud_real,tipo_caneria,tipo_caneria_abreviado)
                 else:
                     # derecha
-                    x_real, y_real, linea,texto_cota,texto = dibujar_linea(x_real, y_real, distancia, angulo, -1, 1,longitud_real,tipo_caneria)
+                    x_real, y_real, linea,texto_cota,texto = dibujar_linea(x_real, y_real, distancia, angulo, -1, 1,longitud_real,tipo_caneria,tipo_caneria_abreviado)
         resultados.append(texto_cota)
         resultados.append(linea)
         resultados.append(texto)
@@ -181,11 +181,11 @@ def isometrica(vectores, tipo_caneria):
 
 
     
-def troncal_caneria(ruta_entrada, ruta_salida,tipo_caneria):
+def troncal_caneria(ruta_entrada, ruta_salida,tipo_caneria,tipo_caneria_abreviado):
     vectores = leer_vectores(ruta_entrada)
     subidas = leer_puntos(ruta_entrada_saltos)
     asignaciones = asignar_punto_a_vector(subidas, vectores)
-    resultados = isometrica(vectores, tipo_caneria)
+    resultados = isometrica(vectores, tipo_caneria,tipo_caneria_abreviado)
     # Asignar puntos a los vectores más cercanos
     with open(ruta_salida, 'w') as archivo:
         for linea in resultados:
