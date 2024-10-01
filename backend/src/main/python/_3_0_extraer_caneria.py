@@ -31,7 +31,7 @@ def distancia_punto_recta(x, y ,xi, yi, xf, yf):
     distancia = numerador / denominador
     return distancia
 
-def process_geotiff_caneria(file_path, output_file):
+def process_geotiff_caneria(file_path, output_file, color):
     # Cargar el archivo GeoTIFF
     with rasterio.open(file_path) as src:
         # Leer la imagen y la transformación affine
@@ -41,7 +41,6 @@ def process_geotiff_caneria(file_path, output_file):
     # Encontrar líneas usando Hough Transform
     lines = cv2.HoughLinesP(image, 1, np.pi / 180, threshold=10, minLineLength=10, maxLineGap=5)
     escala = 250
-    subidas = leer_puntos_txt(ruta_archivo_subidas)
     # Convertir líneas a formato LineString de Shapely
     vectors = []
     if lines is not None:
@@ -53,11 +52,6 @@ def process_geotiff_caneria(file_path, output_file):
                 end = (x2 / escala, y2 / escala)
                 line_string = LineString([start, end])
                 raw_lines.append(line_string)
-                print(x1, y1, x2, y2)
-                
-                punto = subidas[0]
-                print(punto)
-                print(distancia_punto_recta(punto[0], punto[1],x1, y1, x2, y2 ))
         # Merge similar lines
         vectors = raw_lines
 
@@ -73,21 +67,20 @@ def process_geotiff_caneria(file_path, output_file):
                     for i in range(len(coords) - 1):
                         x1, y1 = coords[i]
                         x2, y2 = coords[i + 1]
-                        f.write(f'\\draw [color=red] ({x1:.2f}, {y1:.2f}) -- ({x2:.2f}, {y2:.2f});\n')
+                        f.write(f'\\draw [color={color}] ({x1:.2f}, {y1:.2f}) -- ({x2:.2f}, {y2:.2f});\n')
             else:
                 coords = list(vector.coords)
                 for i in range(len(coords) - 1):
                     x1, y1 = coords[i]
                     x2, y2 = coords[i + 1]
-                    f.write(f'\\draw [color=red] ({x1:.2f}, {y1:.2f}) -- ({x2:.2f}, {y2:.2f});\n')
+                    f.write(f'\\draw [color={color}] ({x1:.2f}, {y1:.2f}) -- ({x2:.2f}, {y2:.2f});\n')
 
 
 # Ruta al archivo GeoTIFF
 file_path = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
-
+color = 'red'
 # Ruta al archivo de salida
 output_file = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
 
-ruta_archivo_subidas = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt'
 # Procesar el archivo GeoTIFF
-process_geotiff_caneria(file_path, output_file)
+process_geotiff_caneria(file_path, output_file, color)

@@ -1,20 +1,20 @@
 import os
 import pytest
-from _4_0_extraer_subidas_bajadas import process_geotiff_subidas
+from _4_0_extraer_subidas_bajadas import process_geotiff_puntos
 
-def test_extraer_subidas():
+def test_process_geotiff_puntos():
 
     input_file_subidas = '/home/meli/planeargas/backend/src/imagen_raster/subidas_bajadas.tif'
+    color = 'blue'
     output_file_subidas = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt'
 
-    process_geotiff_subidas(input_file_subidas, output_file_subidas)
+    process_geotiff_puntos(input_file_subidas, output_file_subidas, color)
 
             # Contenido esperado del archivo generado
-    contenido_esperado = """(4.298, -0.754)
-(4.91, -1.522)
-(1.914, -3.09)
-(1.798, -14.198)
-(4.320009526743253, -7.680019730334017)
+    contenido_esperado = """\\fill [color=blue] (1.79, 14.21) circle (1pt);
+\\fill [color=blue] (1.91, 3.10) circle (1pt);
+\\fill [color=blue] (4.90, 1.53) circle (1pt);
+\\fill [color=blue] (4.30, 0.76) circle (1pt);
 """
 
     # Leer el archivo generado
