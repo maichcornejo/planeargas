@@ -1,35 +1,71 @@
 import rasterio
 import math
 import cv2
+import re
 import numpy as np
 from shapely.geometry import LineString, MultiLineString
 from shapely.ops import unary_union
 from shapely.affinity import affine_transform
 import os
 
-def leer_puntos_txt(ruta_archivo_subidas):
-    puntos = []
-    with open(ruta_archivo_subidas, 'r') as archivo:
+# Leer los vectores del archivo de entrada
+def leer_vectores(ruta_archivo):
+    vectores = []
+    with open(ruta_archivo, 'r') as archivo:
         for linea in archivo:
-            # Eliminar paréntesis y espacios, luego dividir por coma
-            linea = linea.strip().replace('(', '').replace(')', '')
-            x_str, y_str = linea.split(',')
-            # Convertir las cadenas a floats y añadir como tupla (x, y)
-            x, y = float(x_str), float(y_str)
-            puntos.append((x, y))
+            # Extraer coordenadas de los vectores
+            coordenadas = re.findall(r"\(([\d.]+), ([\d.]+)\) -- \(([\d.]+), ([\d.]+)\)", linea)
+            if coordenadas:
+                x1, y1, x2, y2 = map(float, coordenadas[0])
+                vectores.append(((x1, y1), (x2, y2)))
+    return vectores
+
+# Método para leer los puntos desde el archivo
+def leer_puntos(ruta_archivo):
+    puntos = []
+    with open(ruta_archivo, 'r') as archivo:
+        for linea in archivo:
+            # Usar expresión regular para extraer los puntos del formato LaTeX
+            coordenadas = re.findall(r"\(([\d.]+), ([\d.]+)\)", linea)
+            if coordenadas:
+                for coord in coordenadas:
+                    x, y = map(float, coord)
+                    puntos.append((x, y))
     return puntos
 
-def distancia_punto_recta(x, y ,xi, yi, xf, yf):
-
-    # Calculamos el numerador de la fórmula
-    numerador = abs((yf - yi) * x - (xf - xi) * y + xf * yi - yf * xi)
-    
-    # Calculamos el denominador de la fórmula
-    denominador = math.sqrt((yf - yi)**2 + (xf - xi)**2)
-    
-    # Finalmente calculamos la distancia
+# Función para calcular la distancia de un punto a un vector
+def distancia_punto_vector(x, y, x1, y1, x2, y2):
+    # Numerador de la fórmula
+    numerador = abs((y2 - y1) * x - (x2 - x1) * y + x2 * y1 - y2 * x1)
+    # Denominador de la fórmula
+    denominador = math.sqrt((y2 - y1)**2 + (x2 - x1)**2)
+    # Calcular la distancia
     distancia = numerador / denominador
     return distancia
+
+# Función para encontrar el vector más cercano a cada punto
+def asignar_punto_a_vector(puntos, vectores):
+    asignaciones = []
+
+    for punto in puntos:
+        x, y = punto
+        distancia_minima = float('inf')
+        vector_mas_cercano = None
+
+        for vector in vectores:
+            (x1, y1), (x2, y2) = vector
+            # Calcular la distancia del punto al vector
+            distancia = distancia_punto_vector(x, y, x1, y1, x2, y2)
+            
+            # Si la distancia es menor que la distancia mínima actual, actualizamos
+            if distancia < distancia_minima:
+                distancia_minima = distancia
+                vector_mas_cercano = vector
+
+        # Guardamos la asignación del punto al vector más cercano
+        asignaciones.append((punto, vector_mas_cercano, distancia_minima))
+
+    return asignaciones
 
 def process_geotiff_caneria(file_path, output_file, color):
     # Cargar el archivo GeoTIFF
@@ -75,12 +111,18 @@ def process_geotiff_caneria(file_path, output_file, color):
                     x2, y2 = coords[i + 1]
                     f.write(f'\\draw [color={color}] ({x1:.2f}, {y1:.2f}) -- ({x2:.2f}, {y2:.2f});\n')
 
-
 # Ruta al archivo GeoTIFF
 file_path = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
 color = 'red'
 # Ruta al archivo de salida
 output_file = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
-
+ruta_entrada_saltos = "/home/meli/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt"
 # Procesar el archivo GeoTIFF
 process_geotiff_caneria(file_path, output_file, color)
+vectores = leer_vectores(output_file)
+subidas = leer_puntos(ruta_entrada_saltos)
+asignaciones = asignar_punto_a_vector(subidas, vectores)
+# Mostrar los resultados
+for asignacion in asignaciones:
+    punto, vector, distancia = asignacion
+    print(f"El punto {punto} está más cerca del vector {vector} con una distancia de {distancia:.2f}")

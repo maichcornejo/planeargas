@@ -1,0 +1,5 @@
+Coordenadas del medidor de gas:
+Posición X: 418 píxeles
+Posición Y: 3555 píxeles
+Ancho del medidor: 38 píxeles
+Alto del medidor: 24 píxeles

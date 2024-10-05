@@ -19,6 +19,7 @@ def ordenar_vectores_por_y(vectores):
 
 
 def proyectar_y_conectar_vectores(vectores):
+
     cadena_vectores = []
     # Tomar el primer vector como punto inicial
     cadena_vectores.append(vectores[0])

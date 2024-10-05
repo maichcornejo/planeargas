@@ -1,2 +1,8 @@
-Artefacto 1 en (411, 1595) tiene la llave a la derecha.
-Artefacto 1 en (411, 1595) tiene la llave a la izquierda.
+Artefacto 1 en (1919, 1359) tiene la llave a la izquierda.
+Artefacto 2 en (1932, 628) tiene la llave a la izquierda.
+Artefacto 2 en (1932, 628) tiene la llave a la izquierda.
+Artefacto 3 en (1885, 675) tiene la llave a la izquierda.
+Artefacto 3 en (1885, 675) tiene la llave a la izquierda.
+Artefacto 3 en (1885, 675) tiene la llave a la izquierda.
+Artefacto 4 en (2489, 328) tiene la llave a la izquierda.
+Artefacto 5 en (2447, 327) tiene la llave a la izquierda.
