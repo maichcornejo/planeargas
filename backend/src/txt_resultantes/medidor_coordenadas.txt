@@ -1,0 +1,5 @@
+Gas Meter Coordinates (x, y, width, height):
+(1071, 185, 10, 16)
+
+Property Boundaries (x, y, width, height):
+(411, 241, 1354, 3223)

@@ -1,0 +1,23 @@
+<<<<<<< HEAD
+Artefacto 1 en (1772, 921) tiene la llave a la izquierda.
+Artefacto 2 en (530, 589) tiene la llave a la derecha.
+Artefacto 3 en (543, 572) tiene la llave a la derecha.
+Artefacto 4 en (518, 572) tiene la llave a la derecha.
+Artefacto 5 en (543, 552) tiene la llave a la derecha.
+Artefacto 6 en (518, 552) tiene la llave a la derecha.
+Artefacto 7 en (540, 546) tiene la llave a la derecha.
+Artefacto 8 en (1413, 431) tiene la llave a la izquierda.
+Artefacto 8 en (1413, 431) tiene la llave a la izquierda.
+Artefacto 9 en (1475, 406) tiene la llave a la derecha.
+Artefacto 9 en (1475, 406) tiene la llave a la derecha.
+Artefacto 10 en (1413, 398) tiene la llave a la izquierda.
+Artefacto 10 en (1413, 398) tiene la llave a la izquierda.
+Artefacto 11 en (1421, 401) tiene la llave a la izquierda.
+Artefacto 11 en (1421, 401) tiene la llave a la izquierda.
+Artefacto 12 en (1406, 402) tiene la llave a la izquierda.
+Artefacto 12 en (1406, 402) tiene la llave a la izquierda.
+=======
+Artefacto 1 en (441, 760) tiene la llave a la izquierda.
+Artefacto 2 en (1275, 391) tiene la llave a la derecha.
+Artefacto 3 en (1040, 220) tiene la llave a la izquierda.
+>>>>>>> meli

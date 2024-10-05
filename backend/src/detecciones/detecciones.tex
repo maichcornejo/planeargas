@@ -1,0 +1,21 @@
+
+    \documentclass{article}
+    \usepackage{graphicx}
+    \usepackage{tikz}
+    \usepackage[margin=1in]{geometry}
+    
+    \begin{document}
+    
+    \begin{figure}[h!]
+        \centering
+        \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics{"/home/Maia/planeargas/backend/src/imagen_entrada/planta_1.png"}};
+            \begin{scope}[x={(image.south east)}, y={(image.north west)}]
+    
+            \end{scope}
+        \end{tikzpicture}
+        \caption{Detección de Llaves de Paso en Relación a Artefactos}
+    \end{figure}
+    
+    \end{document}
+    

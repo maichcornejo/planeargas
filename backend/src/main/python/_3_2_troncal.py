@@ -1,6 +1,9 @@
 import re
 import math
+<<<<<<< HEAD
+=======
 import os
+>>>>>>> meli
 
 # Leer los vectores del archivo de entrada
 def leer_vectores(ruta_archivo):
@@ -13,6 +16,63 @@ def leer_vectores(ruta_archivo):
                 x1, y1, x2, y2 = map(float, coordenadas[0])
                 vectores.append(((x1, y1), (x2, y2)))
     return vectores
+
+<<<<<<< HEAD
+def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo_y):
+    angulo_radianes = math.radians(angulo_grados)
+    longitud = (abs(distancia * math.cos(angulo_radianes)))*negativo_x + x_real
+    altura = (abs(distancia * math.sin(angulo_radianes)))*negativo_y + y_real
+    return longitud, altura, f"\\draw [color=red] ({x_real:.1f}, {y_real:.1f}) -- ({longitud:.1f}, {altura:.1f});"
+
+
+def isometrica(vectores):
+=======
+# Método para leer los puntos desde el archivo
+def leer_puntos(ruta_archivo):
+    puntos = []
+    with open(ruta_archivo, 'r') as archivo:
+        for linea in archivo:
+            # Usar expresión regular para extraer los puntos del formato LaTeX
+            coordenadas = re.findall(r"\(([\d.]+), ([\d.]+)\)", linea)
+            if coordenadas:
+                for coord in coordenadas:
+                    x, y = map(float, coord)
+                    puntos.append((x, y))
+    return puntos
+
+# Función para calcular la distancia de un punto a un vector
+def distancia_punto_vector(x, y, x1, y1, x2, y2):
+    # Numerador de la fórmula
+    numerador = abs((y2 - y1) * x - (x2 - x1) * y + x2 * y1 - y2 * x1)
+    # Denominador de la fórmula
+    denominador = math.sqrt((y2 - y1)**2 + (x2 - x1)**2)
+    # Calcular la distancia
+    distancia = numerador / denominador
+    return distancia
+
+# Función para encontrar el vector más cercano a cada punto
+def asignar_punto_a_vector(puntos, vectores):
+    asignaciones = []
+
+    for punto in puntos:
+        x, y = punto
+        distancia_minima = float('inf')
+        vector_mas_cercano = None
+
+        for vector in vectores:
+            (x1, y1), (x2, y2) = vector
+            # Calcular la distancia del punto al vector
+            distancia = distancia_punto_vector(x, y, x1, y1, x2, y2)
+            
+            # Si la distancia es menor que la distancia mínima actual, actualizamos
+            if distancia < distancia_minima:
+                distancia_minima = distancia
+                vector_mas_cercano = vector
+
+        # Guardamos la asignación del punto al vector más cercano
+        asignaciones.append((punto, vector_mas_cercano, distancia_minima))
+
+    return asignaciones
 
 def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo_y,longitud_real,tipo_caneria):
             distancia = distancia * 2
@@ -29,7 +89,7 @@ def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo
                 texto = f"\\node [rotate = {angulo_grados}] at ({ubi_texto_x:.1f}, {ubi_texto_y-.5:.1f}) {{{tipo_caneria}}};"
             else:
                 if longitud_real > 1.5:
-                    texto = f"\\node [rotate = {angulo_grados}] at ({ubi_texto_x:.1f}, {ubi_texto_y-.5:.1f}) {{{"T.A.R.P."}}};"
+                    texto = f"\\node [rotate = {angulo_grados}] at ({ubi_texto_x:.1f}, {ubi_texto_y-.5:.1f}) {{{tipo_caneria_abreviado}}};"
                 else:
                     texto = f""
             return longitud, altura, linea,texto_cota,texto
@@ -38,6 +98,7 @@ def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo
 
 def isometrica(vectores, tipo_caneria):
 
+>>>>>>> meli
     primer_vector = vectores[0]
     vector_actual = vectores[1]
     (pv_x2, pv_y2) = primer_vector[1]
@@ -47,10 +108,24 @@ def isometrica(vectores, tipo_caneria):
     if va_x1 == va_x2:
         if va_y1 < va_y2:
             punto_actual = (va_x2, va_y2)
+<<<<<<< HEAD
         else:
             punto_actual = (va_x1, va_y1)
-        resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, .5) -- (.5, -2);""\\node [rotate = 30] at (0.2, 0.5) {0.15};""\\node [rotate = 90] at (0.3, -1.0) {0.90};"]
+        resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, .5) -- (.5, -2);"]
+=======
+            numero = float(input("Ingresa cuanto baja del medidor: "))
+        else:
+            punto_actual = (va_x1, va_y1)
+            numero = float(input("Ingresa cuanto baja del medidor: "))
 
+        # Usar f-string para insertar el valor de 'numero' en la cadena
+        resultados = [
+            "\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, .5) -- (.5, -2);",
+            "\\node [rotate = 30] at (0.2, 0.5) {0.15};",
+            f"\\node [rotate = 90] at (0.3, -1.0) {{{numero:.2f}}};"
+        ]
+
+>>>>>>> meli
         x_real, y_real = .5, -2
     else:
         distancia_1 = math.sqrt((pv_x2 - va_x1)**2 + (pv_y2 - va_y1)**2)
@@ -62,11 +137,27 @@ def isometrica(vectores, tipo_caneria):
         
         if ((va_x1 + va_x2) / 2) > pv_x2:
             # derecha 
-            resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, -0.1) -- (.5, -2);\node [rotate = -30] at (0.4, 0.2) {0.15};\node [rotate = 90] at (0.3, -1.0) {0.90};"]
+<<<<<<< HEAD
+            resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, -0.2) -- (.5, -2);"]
             x_real, y_real = .5, -2
         else:
             # izquierda 
-            resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (-.5, .5) -- (-.5, -2);\node [rotate = -30] at (-0.1, 0.5) {0.15};\node [rotate = 90] at (-0.7, -1.0) {0.90};"]
+            resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (-.5, .5) -- (-.5, -2);"]
+=======
+            numero = float(input("Ingresa cuanto baja del medidor: "))
+            resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, -0.1) -- (.5, -2);"
+                          "\\node [rotate = -30] at (0.4, 0.2) {0.15};" 
+                          f"\\node [rotate = 90] at (0.3, -1.0) {{{numero:.2f}}};"
+                          ]
+            x_real, y_real = .5, -2
+        else:
+            # izquierda 
+            numero = float(input("Ingresa cuanto baja del medidor: "))
+            resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (-.5, .5) -- (-.5, -2);"
+                          "\\node [rotate = -30] at (-0.1, 0.5) {0.15};"
+                          f"\\node [rotate = 90] at (-0.7, -1.0) {{{numero}}};"
+                          ]
+>>>>>>> meli
             x_real, y_real = -.5, -2
 
     # Decidir el índice de inicio del bucle según la distancia
@@ -75,12 +166,36 @@ def isometrica(vectores, tipo_caneria):
     else:
         inicio_bucle = 2
 
+<<<<<<< HEAD
+=======
     grados_anterior = 1
     angulo = 0
+>>>>>>> meli
     # siguiente vector
     for vector_siguiente in vectores[inicio_bucle:]:
         (vs_x1, vs_y1), (vs_x2, vs_y2) = vector_siguiente
         (pa_x, pa_y) = punto_actual
+<<<<<<< HEAD
+        distancia = min(10, max(1, abs(vs_y2 - vs_y1 if vs_x1 == vs_x2 else vs_x2 - vs_x1)))
+        if vs_x1 == vs_x2:
+            angulo = 30
+            if ((vs_y1 + vs_y2) / 2) > pa_y:
+                # izquierda
+                x_real, y_real, linea = dibujar_linea(x_real, y_real, distancia, angulo, -1, -1)
+            else:
+                # derecha
+                x_real, y_real, linea = dibujar_linea(x_real, y_real, distancia, angulo, 1, 1)
+        else:
+            angulo = 150
+            if ((vs_x1 + vs_x2) / 2) > pa_x:
+                # izquierda
+                x_real, y_real, linea = dibujar_linea(x_real, y_real, distancia, angulo, -1, 1)
+            else:
+                # derecha
+                x_real, y_real, linea = dibujar_linea(x_real, y_real, distancia, angulo, 1, -1)
+        
+        resultados.append(linea)
+=======
         longitud_real = abs(vs_y2 - vs_y1 if vs_x1 == vs_x2 else vs_x2 - vs_x1)*2.5
         distancia = min(20, max(0.6, abs(vs_y2 - vs_y1 if vs_x1 == vs_x2 else vs_x2 - vs_x1)))
         if vs_x1 == vs_x2 and grados_anterior != 30:
@@ -106,6 +221,7 @@ def isometrica(vectores, tipo_caneria):
         resultados.append(texto_cota)
         resultados.append(linea)
         resultados.append(texto)
+>>>>>>> meli
         distancia_1 = math.sqrt((pa_x - vs_x1)**2 + (pa_y - vs_y1)**2)
         distancia_2 = math.sqrt((pa_x - vs_x2)**2 + (pa_y - vs_y2)**2)
         
@@ -118,17 +234,42 @@ def isometrica(vectores, tipo_caneria):
 
 
     
-def troncal_caneria(ruta_entrada, ruta_salida,tipo_caneria):
+<<<<<<< HEAD
+def optimizar_caneria(ruta_entrada, ruta_salida):
     vectores = leer_vectores(ruta_entrada)
-    resultados = isometrica(vectores, tipo_caneria)
+    resultados = isometrica(vectores)
     
     with open(ruta_salida, 'w') as archivo:
         for linea in resultados:
             archivo.write(linea + '\n')
+=======
+def troncal_caneria(ruta_entrada, ruta_salida,tipo_caneria):
+    vectores = leer_vectores(ruta_entrada)
+    subidas = leer_puntos(ruta_entrada_saltos)
+    asignaciones = asignar_punto_a_vector(subidas, vectores)
+    resultados = isometrica(vectores, tipo_caneria)
+    # Asignar puntos a los vectores más cercanos
+    with open(ruta_salida, 'w') as archivo:
+        for linea in resultados:
+            archivo.write(linea + '\n')
+            
+    # Mostrar los resultados
+    for asignacion in asignaciones:
+        punto, vector, distancia = asignacion
+        print(f"El punto {punto} está más cerca del vector {vector} con una distancia de {distancia:.2f}")
+>>>>>>> meli
 
 # Ruta de los archivos
 ruta_entrada = "/home/meli/planeargas/backend/src/txt_resultantes/caneria_optimizada.txt"
 ruta_salida = "/home/meli/planeargas/backend/src/txt_resultantes/troncal_latex.txt"
+<<<<<<< HEAD
+
+# Ejecutar el proceso de optimización con proyección
+optimizar_caneria(ruta_entrada, ruta_salida)
+=======
+ruta_entrada_saltos = "/home/meli/planeargas/backend/src/txt_resultantes/resultados_subidas_bajadas.txt"
 tipo_caneria = "TUBO ACERO REVESTIDO POLIETILENO"
+tipo_caneria_abreviado = "T.A.R.P."
 # Ejecutar el proceso de optimización con proyección
 troncal_caneria(ruta_entrada, ruta_salida,tipo_caneria)
+>>>>>>> meli

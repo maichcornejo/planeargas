@@ -68,14 +68,14 @@ def convertir_png_a_geotiff(rutas_imagenes, output_directory):
 
 if __name__ == "__main__":
     rutas_imagenes = {
-    'caneria': '/home/meli/planeargas/backend/src/imagen_salida/caneria.png',
-    'artefactos': '/home/meli/planeargas/backend/src/imagen_salida/artefactos.png',
-    'paredes': '/home/meli/planeargas/backend/src/imagen_salida/paredes.png',
-    'subidas_bajadas': '/home/meli/planeargas/backend/src/imagen_salida/subidas_bajadas.png',
-    'ventilaciones': '/home/meli/planeargas/backend/src/imagen_salida/ventilaciones.png',
-    'cotas': '/home/meli/planeargas/backend/src/imagen_salida/cotas.png'
+    'caneria': '/home/Maia/planeargas/backend/src/imagen_salida/caneria.png',
+    'artefactos': '/home/Maia/planeargas/backend/src/imagen_salida/artefactos.png',
+    'paredes': '/home/Maia/planeargas/backend/src/imagen_salida/paredes.png',
+    'subidas_bajadas': '/home/Maia/planeargas/backend/src/imagen_salida/subidas_bajadas.png',
+    'ventilaciones': '/home/Maia/planeargas/backend/src/imagen_salida/ventilaciones.png',
+    'cotas': '/home/Maia/planeargas/backend/src/imagen_salida/cotas.png'
     }
 
-    output_directory = '/home/meli/planeargas/backend/src/imagen_raster/'
+    output_directory = '/home/Maia/planeargas/backend/src/imagen_raster/'
 
     convertir_png_a_geotiff(rutas_imagenes,output_directory)

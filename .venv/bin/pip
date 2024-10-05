@@ -1,4 +1,4 @@
-#!/home/meli/planeargas/.venv/bin/python
+#!/home/Maia/planeargas/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
