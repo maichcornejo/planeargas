@@ -49,5 +49,3 @@ def main():
     proceso_deteccion_rejilla(input_image_path)
     proceso_deteccion_llave_de_paso(input_image_path)
 main()
-
-
