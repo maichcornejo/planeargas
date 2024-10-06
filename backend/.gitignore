@@ -3,13 +3,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-<<<<<<< HEAD
-venv/
-=======
 .venv/
 gdal-3.9.2/
 gdal-3.9.2
->>>>>>> origin/meli
 
 ### STS ###
 .apt_generated

@@ -1,19 +1,6 @@
-CREATE TABLE artefactos_unicos (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(255) UNIQUE,
-    tipo VARCHAR(255),
-    orientacion VARCHAR(255)
-);
-
-CREATE TABLE planos (
-    id SERIAL PRIMARY KEY,
-    nombre_plano VARCHAR(255) UNIQUE
-);
-
-CREATE TABLE posiciones_artefactos (
-    id SERIAL PRIMARY KEY,
-    artefacto_id INT REFERENCES artefactos_unicos(id),
-    plano_id INT REFERENCES planos(id),
-    coordenada_x FLOAT,
-    coordenada_y FLOAT
-);
+INSERT INTO artefactos (nombre, tipo, orientacion, imagen, dimensiones)
+VALUES 
+('Calefactor Tiro Balanceado Lateral', 'Calefactor', 'Norte', pg_read_binary_file('/ruta/a/imagen_norte.png'), '{"ancho": 60, "alto": 40}'),
+('Calefactor Tiro Balanceado Lateral', 'Calefactor', 'Sur', pg_read_binary_file('/ruta/a/imagen_sur.png'), '{"ancho": 60, "alto": 40}'),
+('Calefactor Tiro Balanceado Lateral', 'Calefactor', 'Este', pg_read_binary_file('/ruta/a/imagen_este.png'), '{"ancho": 60, "alto": 40}'),
+('Calefactor Tiro Balanceado Lateral', 'Calefactor', 'Oeste', pg_read_binary_file('/ruta/a/imagen_oeste.png'), '{"ancho": 60, "alto": 40}');
