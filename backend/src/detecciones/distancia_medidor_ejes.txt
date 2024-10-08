@@ -1,6 +1,6 @@
-Eje Medianero Izquierdo (X): 313 píxeles
-Eje Medianero Derecho (X): 1823 píxeles
-Longitud del Eje Municipal en Píxeles: 1510 píxeles
+Eje Medianero Izquierdo (X): 494 píxeles
+Eje Medianero Derecho (X): 1719 píxeles
+Longitud del Eje Municipal en Píxeles: 1225 píxeles
 Longitud del Eje Municipal en Metros: 15.65 m
-Distancia desde el Medidor al Eje Izquierdo: 11.82 m
-Distancia desde el Medidor al Eje Derecho: 3.83 m
+Distancia desde el Medidor al Eje Izquierdo: 0.73 m
+Distancia desde el Medidor al Eje Derecho: 14.92 m

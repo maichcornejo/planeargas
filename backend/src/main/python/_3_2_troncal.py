@@ -1,3 +1,4 @@
+from _8_artefactos import menu_principal
 import re
 import math
 import os
@@ -38,9 +39,9 @@ def dibujar_linea(x_real, y_real, distancia, angulo_grados, negativo_x, negativo
             return longitud, altura, linea,texto_cota,texto
 
 def sube_o_baja(x_real, y_real, distancia):
-    linea = f"\\draw [color=red] ({x_real:.1f}, {y_real:.1f}) -- ({x_real:.1f}, {y_real+distancia*2:.1f});"
-    texto_cota = f"\\node [rotate = 90] at ({x_real+.1:.1f}, {y_real:.1f}) {{{distancia:.2f}}};"
-    return x_real, y_real+distancia*2 , linea,texto_cota
+    linea = f"\\draw [color=red] ({x_real:.1f}, {y_real:.1f}) -- ({x_real:.1f}, {y_real + distancia * 2.5:.1f});"
+    texto_cota = f"\\node [rotate = 90] at ({x_real-.2:.1f}, {y_real+distancia:.1f}) {{{distancia:.2f}}};"
+    return x_real, y_real+distancia*2.5 , linea,texto_cota
 
 
 def isometrica(vectores, tipo_caneria,tipo_caneria_abreviado):
@@ -85,7 +86,7 @@ def isometrica(vectores, tipo_caneria,tipo_caneria_abreviado):
             #numero = float(input("Ingresa cuanto baja del medidor: "))
             resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (.5, -0.1) -- (.5, -2);"
                           "\\node [rotate = -30] at (0.4, 0.2) {0.15};" 
-                          f"\\node [rotate = 90] at (0.3, -1.0) {{{numero:.2f}}};"
+                          f"\\node [rotate = 90] at (0.3, -4.0) {{{numero:.2f}}};"
                           ]
             x_real, y_real = .5, -2
         else:
@@ -93,7 +94,7 @@ def isometrica(vectores, tipo_caneria,tipo_caneria_abreviado):
             #numero = float(input("Ingresa cuanto baja del medidor: "))
             resultados = ["\\draw [color=red] (0, 0) -- (0, 0.2) -- (-.5, .5) -- (-.5, -2);"
                           "\\node [rotate = -30] at (-0.1, 0.5) {0.15};"
-                          f"\\node [rotate = 90] at (-0.7, -1.0) {{{numero}}};"
+                          f"\\node [rotate = 90] at (-0.7, -4.0) {{{numero}}};"
                           ]
             x_real, y_real = -.5, -2
     # Decidir el índice de inicio del bucle según la distancia
@@ -109,8 +110,13 @@ def isometrica(vectores, tipo_caneria,tipo_caneria_abreviado):
         (pa_x, pa_y) = punto_actual
         longitud_real = abs(vs_y2 - vs_y1 if vs_x1 == vs_x2 else vs_x2 - vs_x1)*2.5
         if longitud_real == 0:
-             x_real, y_real, linea, texto_cota = sube_o_baja(x_real,y_real,0.6)
-             grados_anterior = 90
+            artefacto, distancia = menu_principal()
+            if distancia is not None:
+                x_real, y_real, linea, texto_cota = sube_o_baja(x_real,y_real, distancia)
+            if artefacto is not None:
+                resultados = dibujar_artefacto(x_real,y_real,artefacto, resultados)
+                break
+            grados_anterior = 90
         distancia = min(20, max(0.6, abs(vs_y2 - vs_y1 if vs_x1 == vs_x2 else vs_x2 - vs_x1)))
         if vs_x1 == vs_x2 and grados_anterior != 30 and longitud_real != 0:
             angulo = 30
@@ -145,6 +151,28 @@ def isometrica(vectores, tipo_caneria,tipo_caneria_abreviado):
     
     return resultados
 
+def dibujar_artefacto(x_real, y_real, artefacto, resultados):
+    
+    if ['1', '1', '2', '2'] == artefacto:
+        texto = f'\\node[anchor=center] (nodo1) at ({x_real - 1.28:.1f}, {y_real + 0.18:.1f}){{\\begin{{tikzpicture}}[scale=1]\\input{{1.1.2.2}}L\\end{{tikzpicture}}}};'
+        resultados.append(texto)
+    if ['2', '1', '2', '2'] == artefacto:
+        texto = f'\\node[anchor=center] (nodo1) at ({x_real +0.46:.1f}, {y_real + 0.6:.1f}){{\\begin{{tikzpicture}}[scale=1]\\input{{2.1.2.2}}L\\end{{tikzpicture}}}};'
+        resultados.append(texto)
+
+    if ['1', '1', '3', '1'] == artefacto:
+        texto = f'\\node[anchor=center] (nodo1) at ({x_real -2.7:.1f}, {y_real + 0.90:.1f}){{\\begin{{tikzpicture}}[scale=1]\\input{{1.1.3.1}}L\\end{{tikzpicture}}}};'
+        resultados.append(texto)
+
+    if ['2', '1', '4', '1'] == artefacto:
+        texto = f'\\node[anchor=center] (nodo1) at ({x_real -6.10 :.1f}, {y_real - 2.30:.1f}){{\\begin{{tikzpicture}}[scale=1]\\input{{2.1.4.1}}L\\end{{tikzpicture}}}};'
+        resultados.append(texto)
+
+    if ['2', '1', '3', '2'] == artefacto:
+        texto = f'\\node[anchor=center] (nodo1) at ({x_real -6.10:.1f}, {y_real -2.3:.1f}){{\\begin{{tikzpicture}}[scale=1]\\input{{2.1.3.2}}L\\end{{tikzpicture}}}};'
+        resultados.append(texto)
+
+    return resultados
 
     
 def troncal_caneria(ruta_entrada, ruta_salida,tipo_caneria,tipo_caneria_abreviado):

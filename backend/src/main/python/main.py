@@ -3,7 +3,8 @@ from _1_0_procesamiento_imagen import procesar_imagen
 from _2_0_png_to_geotiff import convertir_png_a_geotiff
 from _3_0_extraer_caneria import process_geotiff_caneria
 from _3_1_0_normalizar_vectores import optimizar_caneria
-from _3_1_1_canieria_subidas import proceso_principal
+from _3_1_1_canieria_subidas import proceso_principal_subidas
+from _3_1_2_canieria_artefactos import proceso_principal_artefactos
 from _3_2_troncal import troncal_caneria
 from _4_0_extraer_subidas_bajadas import process_geotiff_puntos
 from _5_0_1_detectar_medidor import proceso_principal_medidor
@@ -24,7 +25,7 @@ rutas_imagenes = {
 }
 
 output_directory_raster = '/home/meli/planeargas/backend/src/imagen_raster/'
-input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_3.png'
+input_image_path = '/home/meli/planeargas/backend/src/imagen_entrada/planta_9.png'
 output_directory_png = '/home/meli/planeargas/backend/src/imagen_salida/'
 file_path_caneria_raster = '/home/meli/planeargas/backend/src/imagen_raster/caneria.tif'
 file_path_resultados_caneria = '/home/meli/planeargas/backend/src/txt_resultantes/resultados_caneria_latex.txt'
@@ -43,14 +44,15 @@ def main():
     convertir_png_a_geotiff(rutas_imagenes, output_directory_raster)
     process_geotiff_caneria(file_path_caneria_raster, file_path_resultados_caneria, 'red')
     optimizar_caneria(file_path_resultados_caneria, path_caneria_optimizada)
-    proceso_principal(path_caneria_optimizada)
+    proceso_principal_subidas(path_caneria_optimizada)
+    proceso_principal_artefactos(file_path_resultados_caneria, path_caneria_optimizada)
     troncal_caneria(path_caneria_optimizada_2, path_caneria_troncal,tipo_caneria, tipo_caneria_abreviado)
     process_geotiff_puntos(input_file_subidas, output_file_subidas, 'blue')
-    proceso_principal_medidor(input_image_path, 12.5)
-    proceso_detectar_ejes_medianeros(imagen_detectar_ejes_medianeros)
-    proceso_distancia_medidor(imagen_detectar_ejes_medianeros)
-    proceso_deteccion_rejilla(input_image_path)
-    proceso_deteccion_llave_de_paso(input_image_path)
+    #proceso_principal_medidor(input_image_path, 12.5)
+    #proceso_detectar_ejes_medianeros(imagen_detectar_ejes_medianeros)
+    #proceso_distancia_medidor(imagen_detectar_ejes_medianeros)
+    #proceso_deteccion_rejilla(input_image_path)
+    #proceso_deteccion_llave_de_paso(input_image_path)
 main()
 
 
