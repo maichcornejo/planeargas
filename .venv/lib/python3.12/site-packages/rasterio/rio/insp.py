@@ -1,5 +1,4 @@
 """Fetch and edit raster dataset metadata from the command line."""
-from __future__ import absolute_import
 
 import code
 import logging
@@ -12,7 +11,6 @@ import click
 
 from . import options
 import rasterio
-from rasterio.plot import show, show_hist
 
 try:
     import matplotlib.pyplot as plt

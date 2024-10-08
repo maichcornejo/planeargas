@@ -19,13 +19,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-<<<<<<< HEAD
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-=======
->>>>>>> 366618d8 (primer actualizacion melli)
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
@@ -36,14 +29,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-<<<<<<< HEAD
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-=======
->>>>>>> 366618d8 (primer actualizacion melli)
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -53,8 +38,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
-=======
 		
 		<dependency>
             <groupId>org.yaml</groupId>
@@ -70,7 +53,6 @@
             <artifactId>neo4j-java-driver</artifactId>
             <version>5.10.0</version>
         </dependency>
->>>>>>> 366618d8 (primer actualizacion melli)
 	</dependencies>
 
 	<build>

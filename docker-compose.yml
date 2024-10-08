@@ -11,9 +11,9 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: APP
-      POSTGRES_PASSWORD: APP
-      POSTGRES_DB: labprog
+      POSTGRES_USER: PLA
+      POSTGRES_PASSWORD: PLA
+      POSTGRES_DB: planeargas
 
   backend:
     build:
