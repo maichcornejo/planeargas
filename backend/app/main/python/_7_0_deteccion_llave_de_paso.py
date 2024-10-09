@@ -3,8 +3,13 @@ import numpy as np
 
 def proceso_deteccion_llave_de_paso(ruta_imagen):
 
+    # Intentar cargar la imagen
     imagen = cv2.imread(ruta_imagen)
-
+    
+    # Verificar si la imagen fue cargada correctamente
+    if imagen is None:
+        print(f"Error: No se pudo cargar la imagen desde la ruta: {ruta_imagen}")
+        return
     
     imagen_rgb = cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB)
 
