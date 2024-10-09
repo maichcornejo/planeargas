@@ -1,26 +1,25 @@
 <div class="container">
-    <header>
-      <h1>Generador de Planos de Gas</h1>
-      <p>Bienvenido a la aplicación para generar planos de instalaciones de gas. El primer paso es la carga de lotes.</p>
-    </header>
-  
-    <nav>
-      <ul>
-        <li><a routerLink="/">Inicio</a></li>
-        <li><a routerLink="/lote">Cargar Lote</a></li>
-        <!-- A medida que agregues más pasos, puedes agregar más enlaces aquí -->
-        <li><a routerLink="/planos">Cargar Planos (Próximamente)</a></li>
-        <li><a routerLink="/reportes">Reportes (Próximamente)</a></li>
-      </ul>
-    </nav>
-  
-    <section>
-      <!-- Aquí se cargarán las diferentes vistas dependiendo de la ruta -->
-      <router-outlet></router-outlet>
-    </section>
-  
-    <footer>
-      <p>Generador de Planos de Gas - Todos los derechos reservados © 2024</p>
-    </footer>
-  </div>
-  
+  <header>
+    <h1>Generador de Planos de Gas</h1>
+    <p>Bienvenido a la aplicación para generar planos de instalaciones de gas. El primer paso es la carga de lotes.</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a routerLink="/">Inicio</a></li>
+      <li><a routerLink="/lote">Cargar Lote</a></li>
+      <!-- Enlace a la nueva ruta de Cargar Planos -->
+      <li><a routerLink="/nuevo-plano">Cargar Planos</a></li>
+      <li><a routerLink="/reportes">Reportes (Próximamente)</a></li>
+    </ul>
+  </nav>
+
+  <section>
+    <!-- Aquí se cargarán las diferentes vistas dependiendo de la ruta -->
+    <router-outlet></router-outlet>
+  </section>
+
+  <footer>
+    <p>Generador de Planos de Gas - Todos los derechos reservados © 2024</p>
+  </footer>
+</div>
