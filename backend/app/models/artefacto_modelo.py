@@ -1,5 +1,3 @@
-# backend/app/models/artefacto_model.py
-
 from flask_sqlalchemy import SQLAlchemy
 
 # Inicializar SQLAlchemy

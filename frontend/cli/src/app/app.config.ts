@@ -1,11 +1,7 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { routes } from './app.routes';
-import { HttpClientModule } from '@angular/common/http';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(routes),
-    importProvidersFrom(HttpClientModule)
-  ]
-};
+export const AppConfig = {
+    apiUrl: 'http://localhost:28002',  // URL de tu backend Flask
+    defaultLanguage: 'es',  // Idioma predeterminado
+    maxLoteSize: 100,  // Tamaño máximo de lote en algún contexto
+    debugMode: true  // Modo de depuración activado
+  };
+  

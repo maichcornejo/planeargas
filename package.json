@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@angular/compiler": "^18.2.7",
+    "@angular/forms": "^18.2.7"
+  }
+}

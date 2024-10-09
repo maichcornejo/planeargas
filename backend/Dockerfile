@@ -1,18 +1,20 @@
-# Usa una imagen base de Python
+# Usar una imagen base de Python
 FROM python:3.9-slim
 
-# Establece el directorio de trabajo
+# Establecer el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo de requisitos y luego instala las dependencias
+# Copiar los archivos de requerimientos y instalarlos
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia el resto del código de la aplicación
+# Copiar el resto del código de la aplicación
 COPY . .
 
-# Expone el puerto en el que tu aplicación se ejecutará
+# Exponer el puerto que usará la aplicación
 EXPOSE 8080
 
-# Define el comando de inicio
-CMD ["python", "app.py"]
+# Comando por defecto (puede ser sobreescrito por docker-compose)
+CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
+
+ENV PYTHONPATH=/app

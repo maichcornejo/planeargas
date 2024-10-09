@@ -1,24 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, NgbModule], 
-  styleUrls: ['./app.component.css', './dropdowns.css'],
-  templateUrl: 'app.component2.html',
+  selector: 'app-root',  // El selector para insertar este componente en HTML
+  templateUrl: './app.component.html',  // El archivo HTML asociado
+  styleUrls: ['./app.component.css']  // Los estilos CSS asociados
 })
 export class AppComponent {
-  
-  
-  isDropdownOpen= false;
-  
-  constructor(private router: Router) { }
-
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
+  title = 'Mi Aplicación de Carga de Lotes';
 }

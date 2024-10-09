@@ -1,0 +1,34 @@
+<h1>Formulario de Lote</h1>
+<form (ngSubmit)="submitLote()">
+  <label for="tipo_calle">Tipo de Calle:</label>
+  <input type="text" id="tipo_calle" [(ngModel)]="loteData.tipo_calle" name="tipo_calle" required>
+
+  <label for="nombre_calle">Nombre de la Calle:</label>
+  <input type="text" id="nombre_calle" [(ngModel)]="loteData.nombre_calle" name="nombre_calle" required>
+
+  <label for="altura">Número de Altura:</label>
+  <input type="number" id="altura" [(ngModel)]="loteData.altura" name="altura" required>
+
+  <label for="manzana">Manzana:</label>
+  <input type="text" id="manzana" [(ngModel)]="loteData.manzana" name="manzana">
+
+  <label for="lote">Lote:</label>
+  <input type="text" id="lote" [(ngModel)]="loteData.lote" name="lote" required>
+
+  <label for="piso">Piso:</label>
+  <input type="number" id="piso" [(ngModel)]="loteData.piso" name="piso">
+
+  <label for="departamento">Departamento:</label>
+  <input type="text" id="departamento" [(ngModel)]="loteData.departamento" name="departamento">
+
+  <label for="entre_calles_1">Entre Calles 1:</label>
+  <input type="text" id="entre_calles_1" [(ngModel)]="loteData.entre_calles_1" name="entre_calles_1">
+
+  <label for="entre_calles_2">Entre Calles 2:</label>
+  <input type="text" id="entre_calles_2" [(ngModel)]="loteData.entre_calles_2" name="entre_calles_2">
+
+  <label for="distancia_esquinas">Distancia a las Esquinas:</label>
+  <input type="number" id="distancia_esquinas" [(ngModel)]="loteData.distancia_esquinas" name="distancia_esquinas">
+
+  <button type="submit">Guardar</button>
+</form>

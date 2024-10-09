@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   database:
@@ -23,8 +21,11 @@ services:
     volumes:
       - ./backend:/app
       - ../common/backend/m2:/root/.m2
+    environment:
+      - FLASK_APP=app.app  # Apunta a la fábrica de aplicaciones
+      - FLASK_ENV=development 
     working_dir: /app
-    command: python app.py
+    command: flask run --host=0.0.0.0 --port=8080
     ports:
       - "28002:8080"  # Mapea el puerto interno 8080 a 28002 en el host
       - "28004:5005"  # Mapea el puerto interno 5005 a 28004 en el host
@@ -36,17 +37,11 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
-    ### --- SEGUIR INSTRUCIVO AQUI ####
-    # -- Comentar luego de ng new
-    #working_dir: /home/node 
-    # -- Descomentar luego de ng new
     working_dir: /home/node/cli
     command: ng serve --host=0.0.0.0
-    ### ------------------------- ####
     restart: always
     ports:
-      - "28003:4200"  # Mapea el puerto interno 4200 a 28005 en el host
-    # stdin_open y tty mantienen el servidor funcionando sin commandos en ejecución
+      - "28003:4200"  # Mapea el puerto interno 4200 a 28003 en el host
     stdin_open: true
     tty: true
     volumes:
